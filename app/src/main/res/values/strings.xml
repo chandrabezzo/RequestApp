@@ -1,0 +1,19 @@
+<resources>
+    <!--<string name="app_name">CoreMVP</string>-->
+
+    <!-- Default -->
+    <string name="turn_on_gps">Please Turn On GPS</string>
+    <string name="some_error">Some Error Occurred!</string>
+    <string name="search">Search</string>
+    <string name="pengaturan_gps">Pengaturan GPS</string>
+    <string name="akurasi_tinggi_mode">Aktifkan GPS dan gunakan mode akurasi tinggi untuk mendapatkan lokasi.</string>
+    <string name="perizinan">Perizinan</string>
+    <string name="message_perizinan">Izinkan aplikasi mengakses %s supaya aplikasi dapat berjalan baik.</string>
+    <string name="cancel">Batal</string>
+    <string name="ok">Ok</string>
+
+    <!-- Main -->
+    <string name="beranda">Beranda</string>
+    <string name="user">User</string>
+    <string name="list">List</string>
+</resources>
