@@ -98,7 +98,7 @@ object RestApi {
             AppLogger.i("Paths : ${paths.toString()}")
         }
 
-        putRequest.addBodyParameter(body)
+        putRequest.addApplicationJsonBody(body)
         putRequest.setPriority(Priority.MEDIUM)
         putRequest.setOkHttpClient(okHttpClient)
 
@@ -125,7 +125,7 @@ object RestApi {
             AppLogger.i("Paths : ${paths.toString()}")
         }
 
-        deleteRequest.addBodyParameter(body)
+        deleteRequest.addApplicationJsonBody(body)
         deleteRequest.setPriority(Priority.MEDIUM)
         deleteRequest.setOkHttpClient(okHttpClient)
 

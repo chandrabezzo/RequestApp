@@ -11,9 +11,18 @@
     <string name="message_perizinan">Izinkan aplikasi mengakses %s supaya aplikasi dapat berjalan baik.</string>
     <string name="cancel">Batal</string>
     <string name="ok">Ok</string>
+    <string name="not_support_play_service">Not support Google Play Service</string>
+    <string name="device_not_support">"This device is not supported"</string>
+    <string name="service_not_found">Service not found</string>
+    <string name="network_not_stable">Make sure your internet is stable</string>
+    <string name="server_error">Server Error</string>
+    <string name="service_not_connected">Not connected to the service</string>
+    <string name="no_access">You Have No Access</string>
 
     <!-- Main -->
     <string name="beranda">Beranda</string>
     <string name="user">User</string>
+    <string name="alamat">Alamat</string>
+    <string name="socmed">Social Media</string>
     <string name="list">List</string>
 </resources>

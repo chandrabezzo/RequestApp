@@ -4,6 +4,7 @@ import com.co.jasamedika.coreandroid.data.model.general.Karyawan
 import com.co.jasamedika.coreandroid.data.model.jabatan.Jabatan
 import com.co.jasamedika.coreandroid.data.model.jabatan.JabatanResponse
 import com.co.jasamedika.coreandroid.data.model.user.UserResponse
+import com.rx2androidnetworking.Rx2ANRequest
 import io.reactivex.Observable
 
 /**
@@ -15,5 +16,7 @@ interface ApiHelperContract {
 
     fun getJabatan() : Observable<JabatanResponse>
 
-    fun getKaryawan(params : HashMap<String, String>) : Observable<List<Karyawan>>
+    fun getKaryawan(params : HashMap<String, String>) : Rx2ANRequest
+
+    fun getSocmed() : Rx2ANRequest
 }

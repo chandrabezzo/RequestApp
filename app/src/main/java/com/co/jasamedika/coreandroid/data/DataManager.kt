@@ -7,6 +7,7 @@ import com.co.jasamedika.coreandroid.data.model.jabatan.JabatanResponse
 import com.co.jasamedika.coreandroid.data.model.user.UserResponse
 import com.co.jasamedika.coreandroid.data.network.ApiHelperContract
 import com.co.jasamedika.coreandroid.data.session.SessionHelperContract
+import com.rx2androidnetworking.Rx2ANRequest
 import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -123,7 +124,11 @@ constructor(private val mSessionHelper: SessionHelperContract,
         return mApiHelper.getJabatan()
     }
 
-    override fun getKaryawan(params: HashMap<String, String>): Observable<List<Karyawan>> {
+    override fun getKaryawan(params: HashMap<String, String>): Rx2ANRequest {
         return mApiHelper.getKaryawan(params)
+    }
+
+    override fun getSocmed(): Rx2ANRequest {
+        return mApiHelper.getSocmed()
     }
 }

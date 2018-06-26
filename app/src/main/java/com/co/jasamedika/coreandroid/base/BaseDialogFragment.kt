@@ -2,7 +2,6 @@ package com.co.jasamedika.coreandroid.base
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.StringRes
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
@@ -12,9 +11,7 @@ import android.view.Window
 import android.widget.Toast
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import com.co.jasamedika.coreandroid.R
 import com.co.jasamedika.coreandroid.di.component.ActivityComponent
-import com.co.jasamedika.coreandroid.util.AppLogger
 
 /**
  * Created by bezzo on 21/12/17.
@@ -99,30 +96,6 @@ open abstract class BaseDialogFragment : DialogFragment(), BaseDialogFragmentVie
         // on token expire
     }
 
-    override fun onError(@StringRes resId: Int) {
-        if (baseActivity != null) {
-            baseActivity!!.onError(resId)
-        }
-    }
-
-    override fun onError(message: String?) {
-        if (baseActivity != null) {
-            baseActivity!!.onError(message)
-        }
-    }
-
-    override fun showMessage(message: String?) {
-        if (baseActivity != null) {
-            baseActivity!!.showMessage(message)
-        }
-    }
-
-    override fun showMessage(@StringRes resId: Int) {
-        if (baseActivity != null) {
-            baseActivity!!.showMessage(resId)
-        }
-    }
-
     override fun isNetworkConnected(): Boolean {
         return if (baseActivity != null) {
             baseActivity!!.isNetworkConnected()
@@ -138,6 +111,12 @@ open abstract class BaseDialogFragment : DialogFragment(), BaseDialogFragmentVie
     override fun showToast(message: String, duration: Int) {
         if (baseActivity != null){
             Toast.makeText(baseActivity, message, duration).show()
+        }
+    }
+
+    override fun showToast(resId: Int, duration: Int) {
+        if (baseActivity != null){
+            Toast.makeText(baseActivity, getString(resId), duration).show()
         }
     }
 
@@ -177,10 +156,5 @@ open abstract class BaseDialogFragment : DialogFragment(), BaseDialogFragmentVie
         }
         ft.addToBackStack(null)
         show(ft, tag)
-    }
-
-    override fun someError(tag: String) {
-        AppLogger.e("$tag, " + getString(R.string.some_error))
-        showToast("$tag, " + getString(R.string.some_error), Toast.LENGTH_SHORT)
     }
 }

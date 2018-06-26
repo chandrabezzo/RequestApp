@@ -16,17 +16,11 @@ interface BaseView {
 
     fun openActivityOnTokenExpire()
 
-    fun onError(@StringRes resId: Int)
-
-    fun onError(message: String?)
-
-    fun showMessage(message: String?)
-
-    fun showMessage(@StringRes resId: Int)
-
     fun hideKeyboard()
 
     fun showToast(message: String, duration: Int)
+
+    fun showToast(@StringRes resId: Int, duration: Int)
 
     fun goToActivity(c: Class<*>, bundle: Bundle?, isFinish: Boolean)
 
@@ -42,5 +36,5 @@ interface BaseView {
 
     fun dismissProgressDialog()
 
-    fun someError(tag : String)
+    fun handleError(case : Int)
 }

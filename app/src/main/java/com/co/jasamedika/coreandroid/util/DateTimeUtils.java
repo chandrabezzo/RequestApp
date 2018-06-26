@@ -21,8 +21,18 @@ public class DateTimeUtils {
                 .format(new Date(epoch*1000));
     }
 
+    public static String epochToTime(long epoch){
+        return new SimpleDateFormat("HH:mm", Locale.getDefault())
+                .format(new Date(epoch*1000));
+    }
+
     public static String epochToDateTime(long epoch){
         return new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+                .format(new Date(epoch*1000));
+    }
+
+    public static String epochToHumanDate(long epoch){
+        return new SimpleDateFormat("EEEE, dd MMMM yyyy", CommonUtils.getLocaleID())
                 .format(new Date(epoch*1000));
     }
 
@@ -78,6 +88,10 @@ public class DateTimeUtils {
         return getCurrentHour() + ":" + getCurrentMinute() + ":" + getCurrentSecond();
     }
 
+    public static String getCurrentDateTime(){
+        return getCurrentDate() + " " + getCurrentTime();
+    }
+
     public static int getCurrentDay(){
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.DAY_OF_MONTH);
@@ -113,33 +127,33 @@ public class DateTimeUtils {
 
     // Calendar CONVERTER
 
-    public static Calendar getTodayInTime(){
+    public static Calendar getTodayInCalendar(){
         return Calendar.getInstance();
     }
 
-    public static Calendar getAddedDateInTime(String date, int addDay){
+    public static Calendar getDateTimeInCalendar(Integer day, Integer month, Integer year, Integer hour, Integer minute){
         Calendar calendar = Calendar.getInstance();
-        String[] splitDate = date.split("/");
-
-        int today = calendar.get(Calendar.DAY_OF_MONTH);
-        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splitDate[0]));
-        int selected = calendar.get(Calendar.DAY_OF_MONTH);
-        calendar.set(Calendar.MONTH, Integer.parseInt(splitDate[1]) - 1);
-        calendar.set(Calendar.YEAR, Integer.parseInt(splitDate[2]));
-        calendar.add(Calendar.DAY_OF_MONTH, addDay);
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-
-        if (today == selected){
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-        }
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
 
         return calendar;
     }
 
+    public static Calendar getDateInCalendar(Integer day, Integer month, Integer year){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.YEAR, year);
+
+        return calendar;
+    }
+
+    //format date 28/11/1995
     public static Calendar dateToCalendar(String date){
-        String[] splitDate = date.split("/");
+        String[] splitDate = CommonUtils.getSplittedString(date, "/");
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splitDate[0]));
         calendar.set(Calendar.MONTH, Integer.parseInt(splitDate[1]) - 1);
@@ -148,10 +162,11 @@ public class DateTimeUtils {
         return calendar;
     }
 
-    public static Calendar createDateTime(String dateTime){
-        String[] datetimeSplit = dateTime.split(" ");
-        String[] dateSplit = datetimeSplit[0].split("-");
-        String[] timeSplit = datetimeSplit[1].split(":");
+    //format datetime 28/11/1995 19:00
+    public static Calendar getDateTimeInCalendar(String dateTime){
+        String[] datetimeSplit = CommonUtils.getSplittedString(dateTime, " ");
+        String[] dateSplit = CommonUtils.getSplittedString(datetimeSplit[0], "/");
+        String[] timeSplit = CommonUtils.getSplittedString(datetimeSplit[1], ":");
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, Integer.parseInt(dateSplit[0]));
@@ -159,9 +174,47 @@ public class DateTimeUtils {
         calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateSplit[2]));
         calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeSplit[0]));
         calendar.set(Calendar.MINUTE, Integer.parseInt(timeSplit[1]));
-        calendar.set(Calendar.SECOND, Integer.parseInt(timeSplit[2]));
 
         return calendar;
+    }
+
+    public static Calendar getAddedDayCalendar(String date, int addDay){
+        Calendar calendar = dateToCalendar(date);
+        calendar.add(Calendar.DAY_OF_MONTH, addDay);
+
+        return calendar;
+    }
+
+    public static Calendar getAddedMonthCalendar(String date, int addMonth){
+        Calendar calendar = dateToCalendar(date);
+        calendar.add(Calendar.MONTH, addMonth);
+
+        return calendar;
+    }
+
+    public static Calendar getAddedYearCalendar(String date, int addYear){
+        Calendar calendar = dateToCalendar(date);
+        calendar.add(Calendar.YEAR, addYear);
+
+        return calendar;
+    }
+
+    public static Integer getLastDateOfMonth(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
+    public static Long countDate(Long tglAwal, Long tglAkhir){
+        String tglMulai = epochToDate(tglAwal);
+        String tglSelesai = epochToDate(tglAkhir);
+
+        Calendar startCalendar = dateToCalendar(tglMulai);
+        Calendar endCalendar = dateToCalendar(tglSelesai);
+
+        Long dateInMilis = endCalendar.getTimeInMillis() - startCalendar.getTimeInMillis();
+        Long different = dateInMilis / (24 * 60 * 60 * 1000);
+
+        return different;
     }
 
     // END Calendar CONVERTER
@@ -177,20 +230,6 @@ public class DateTimeUtils {
         String[] dayOfWeek = new String[]{"Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"};
 
         return dayOfWeek[position];
-    }
-
-    public static String getAddedDateInFormat(String date, int addDay){
-        String[] splitDate = date.split("/");
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splitDate[0]));
-        calendar.set(Calendar.MONTH, Integer.parseInt(splitDate[1]) - 1);
-        calendar.set(Calendar.YEAR, Integer.parseInt(splitDate[2]));
-        calendar.add(Calendar.DAY_OF_MONTH, addDay);
-
-        String addedDate = calendar.get(Calendar.DAY_OF_MONTH) + "/" + (calendar.get(Calendar.MONTH) + 1)
-                + "/" + calendar.get(Calendar.YEAR);
-
-        return addedDate;
     }
 
     public static String getHour(Integer hour){

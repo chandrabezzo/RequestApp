@@ -30,4 +30,9 @@ class User {
     @ColumnInfo(name = "jabatan")
     @Expose
     var jabatan: String? = null
+
+    @SerializedName("alamat")
+    @ColumnInfo(name = "alamat")
+    @Expose
+    var alamat : Alamat? = null
 }

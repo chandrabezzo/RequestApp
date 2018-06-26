@@ -16,9 +16,9 @@ import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatTextView
 import android.view.View
-import butterknife.ButterKnife
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.co.jasamedika.coreandroid.MvpApp
 import com.co.jasamedika.coreandroid.R
@@ -27,8 +27,8 @@ import com.co.jasamedika.coreandroid.di.component.DaggerActivityComponent
 import com.co.jasamedika.coreandroid.di.module.ActivityModule
 import com.co.jasamedika.coreandroid.util.AppLogger
 import com.co.jasamedika.coreandroid.util.CommonUtils
+import com.co.jasamedika.coreandroid.util.KeyboardUtils
 import com.co.jasamedika.coreandroid.util.LocaleHelper
-import com.co.jasamedika.coreandroid.util.NetworkUtils
 import kotlinx.android.synthetic.main.default_toolbar.*
 
 /**
@@ -136,44 +136,20 @@ open abstract class BaseActivity : AppCompatActivity(), BaseActivityView, BaseFr
 
     }
 
-    override fun onError(@StringRes resId: Int) {
-        onError(getString(resId))
-    }
-
-    override fun onError(message: String?) {
-        if (message != null) {
-            showSnackBar(message, Snackbar.LENGTH_SHORT)
-        } else {
-            showSnackBar(getString(R.string.some_error), Snackbar.LENGTH_SHORT)
-        }
-    }
-
-    override fun showMessage(message: String?) {
-        if (message != null) {
-            showToast(message, Toast.LENGTH_SHORT)
-        } else {
-            showToast(getString(R.string.some_error), Toast.LENGTH_SHORT)
-        }
-    }
-
-    override fun showMessage(@StringRes resId: Int) {
-        showMessage(getString(resId))
-    }
-
     override fun isNetworkConnected(): Boolean {
-        return NetworkUtils.isNetworkConnected(applicationContext)
+        return CommonUtils.isNetworkConnected(applicationContext)
     }
 
     override fun hideKeyboard() {
-        val view = this.currentFocus
-        if (view != null) {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromInputMethod(view.windowToken, 0)
-        }
+        KeyboardUtils.hideSoftInput(this)
     }
 
     override fun showToast(message: String, duration: Int) {
         Toast.makeText(this, message, duration).show()
+    }
+
+    override fun showToast(resId: Int, duration: Int) {
+        Toast.makeText(this, getString(resId), duration).show()
     }
 
     override fun goToActivity(c: Class<*>, bundle: Bundle?, isFinish: Boolean) {
@@ -298,12 +274,40 @@ open abstract class BaseActivity : AppCompatActivity(), BaseActivityView, BaseFr
         snackbar.show()
     }
 
-    override fun someError(tag : String) {
-        AppLogger.e("$tag, " + getString(R.string.some_error))
-        showSnackBar("$tag, " + getString(R.string.some_error), Snackbar.LENGTH_SHORT)
+    override fun showSnackBar(resId: Int, duration: Int) {
+        val snackbar = Snackbar.make(findViewById(android.R.id.content),
+                getString(resId), duration)
+        val subView = snackbar.view
+        val textView = subView.findViewById<View>(android.support.design
+                .R.id.snackbar_text) as AppCompatTextView
+        textView.setTextColor(ContextCompat.getColor(this, R.color.white))
+        snackbar.show()
     }
 
     override fun onClickBack() {
         finish()
+    }
+
+    override fun handleError(case: Int) {
+        when(case) {
+            1 -> {
+                showToast(getString(R.string.service_not_found), Toast.LENGTH_SHORT)
+            }
+            2 -> {
+                showToast(getString(R.string.network_not_stable), Toast.LENGTH_SHORT)
+            }
+            3 -> {
+                showToast(getString(R.string.server_error), Toast.LENGTH_SHORT)
+            }
+            4 -> {
+                showToast(getString(R.string.service_not_connected), Toast.LENGTH_SHORT)
+            }
+            5 -> {
+                showToast(getString(R.string.no_access), Toast.LENGTH_SHORT)
+            }
+            6 -> {
+                showToast(getString(R.string.some_error), Toast.LENGTH_SHORT)
+            }
+        }
     }
 }

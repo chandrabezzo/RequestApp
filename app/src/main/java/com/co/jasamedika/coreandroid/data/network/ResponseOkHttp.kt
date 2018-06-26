@@ -9,14 +9,14 @@ import okhttp3.Response
  * Created by bezzo on 19/10/17.
  */
 
-abstract class ResponseOkHttp<M : BaseResponse> constructor(val successCode : Int)
+abstract class ResponseOkHttp<M> constructor(val successCode : Int)
     : OkHttpResponseAndParsedRequestListener<M> {
 
     override fun onResponse(okHttpResponse: Response, response: M) {
         when {
             okHttpResponse.code() == 200 -> onSuccess(okHttpResponse, response)
             okHttpResponse.code() == 401 -> onUnauthorized()
-            else -> onFailed(okHttpResponse, response)
+            else -> onFailed(okHttpResponse)
         }
     }
 
@@ -28,7 +28,7 @@ abstract class ResponseOkHttp<M : BaseResponse> constructor(val successCode : In
 
     abstract fun onUnauthorized()
 
-    abstract fun onFailed(response: Response, model: M)
+    abstract fun onFailed(response: Response)
 
     abstract fun onHasError(error : ANError)
 }

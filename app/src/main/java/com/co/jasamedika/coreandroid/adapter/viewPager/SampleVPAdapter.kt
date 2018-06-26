@@ -9,8 +9,8 @@ import android.support.v4.app.FragmentStatePagerAdapter
 /**
  * Created by bezzo on 11/01/18.
  */
-class SampleVPAdapter constructor(var fragmentManager : FragmentManager,
-                                  var context: Context)
+class SampleVPAdapter constructor(var context: Context,
+                                  var fragmentManager : FragmentManager)
     : FragmentStatePagerAdapter(fragmentManager) {
 
     var tabs : ArrayList<Fragment> = ArrayList()

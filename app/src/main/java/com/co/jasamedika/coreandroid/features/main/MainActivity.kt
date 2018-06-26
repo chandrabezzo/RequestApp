@@ -11,6 +11,7 @@ import com.co.jasamedika.coreandroid.data.model.user.User
 import com.co.jasamedika.coreandroid.base.BaseActivity
 import com.co.jasamedika.coreandroid.data.model.general.Karyawan
 import com.co.jasamedika.coreandroid.data.model.jabatan.Jabatan
+import com.co.jasamedika.coreandroid.data.model.user.Socmed
 import com.co.jasamedika.coreandroid.listener.OnLoadMoreListener
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -47,6 +48,8 @@ class MainActivity : BaseActivity(), MainContracts.View {
         presenter.getJabatanApi()
         presenter.getAllKaryawan()
         presenter.getKaryawanApi()
+        presenter.getSocmed()
+        presenter.getSocmedApi()
 
         sr_list.setOnRefreshListener {
             presenter.getKaryawanApi()
@@ -91,6 +94,12 @@ class MainActivity : BaseActivity(), MainContracts.View {
 
     override fun showUser(user: User) {
         tv_user.text = user.nama + " - " + user.jabatan
+        var rt = user.alamat!!.rt
+        var rw = user.alamat!!.rw
+        var kec = user.alamat!!.kecamatan
+        var kab = user.alamat!!.kabupaten
+
+        tv_alamat.text = "RT $rt / RW $rw, $kec, $kab"
     }
 
     override fun showJabatan(jabatan: List<Jabatan>) {
@@ -109,5 +118,9 @@ class MainActivity : BaseActivity(), MainContracts.View {
         allKaryawan.clear()
         allKaryawan.addAll(values)
         rvAdapter.notifyDataSetChanged()
+    }
+
+    override fun showSocmed(value: Socmed) {
+        tv_socmed.text = value.email
     }
 }

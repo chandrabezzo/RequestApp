@@ -5,8 +5,19 @@
 		"data" : {
 			"id" : 1,
 			"nama" : "Chandra Abdul Fattah",
-			"jabatan": "Mobile Programmer"
+			"jabatan": "Mobile Programmer",
+			"alamat": {
+				"rt": "4",
+				"rw": "2",
+				"lokasi": "Jl. Buahdua - Sanca No.1",
+				"kecamatan": "Buahdua",
+				"kabupaten": "Sumedang"
+			}
 		}
+	},
+	"socialMedia": {
+		"linkedin": "https://www.linkedin.com/in/chandra-abdul-fattah/",
+		"email": "chandraaf28@gmail.com"
 	},
 	"jabatan" : {
 		"code" : 200,

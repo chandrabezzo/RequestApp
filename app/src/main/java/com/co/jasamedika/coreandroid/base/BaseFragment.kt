@@ -3,7 +3,6 @@ package com.co.jasamedika.coreandroid.base
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -15,7 +14,6 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.co.jasamedika.coreandroid.R
 import com.co.jasamedika.coreandroid.di.component.ActivityComponent
-import com.co.jasamedika.coreandroid.util.AppLogger
 import com.co.jasamedika.coreandroid.util.CommonUtils
 import kotlinx.android.synthetic.main.default_toolbar.*
 
@@ -100,30 +98,6 @@ open abstract class BaseFragment : Fragment(), BaseFragmentView {
         (activity as BaseActivity).openActivityOnTokenExpire()
     }
 
-    override fun onError(@StringRes resId: Int) {
-        if (baseActivity != null) {
-            baseActivity!!.onError(resId)
-        }
-    }
-
-    override fun onError(message: String?) {
-        if (baseActivity != null) {
-            baseActivity!!.onError(message)
-        }
-    }
-
-    override fun showMessage(message: String?) {
-        if (baseActivity != null) {
-            baseActivity!!.showMessage(message)
-        }
-    }
-
-    override fun showMessage(@StringRes resId: Int) {
-        if (baseActivity != null) {
-            baseActivity!!.showMessage(resId)
-        }
-    }
-
     override fun isNetworkConnected(): Boolean {
         return if (baseActivity != null) {
             baseActivity!!.isNetworkConnected()
@@ -139,6 +113,12 @@ open abstract class BaseFragment : Fragment(), BaseFragmentView {
     override fun showToast(message: String, duration: Int) {
         if (activity != null){
             (activity as BaseActivity).showToast(message, duration)
+        }
+    }
+
+    override fun showToast(resId: Int, duration: Int) {
+        if (activity != null){
+            (activity as BaseActivity).showToast(getString(resId), duration)
         }
     }
 
@@ -185,6 +165,17 @@ open abstract class BaseFragment : Fragment(), BaseFragmentView {
         snackbar.show()
     }
 
+    override fun showSnackBar(resId: Int, duration: Int) {
+        val snackbar = Snackbar.make(baseActivity!!
+                .findViewById(android.R.id.content),
+                getString(resId), duration)
+        val subView = snackbar.view
+        val textView = subView.findViewById<View>(android.support.design
+                .R.id.snackbar_text) as AppCompatTextView
+        textView.setTextColor(ContextCompat.getColor(baseActivity!!, R.color.white))
+        snackbar.show()
+    }
+
     fun setActionBarTitle(title: String) {
         (activity as BaseActivity).setActionBarTitle(title)
     }
@@ -206,10 +197,5 @@ open abstract class BaseFragment : Fragment(), BaseFragmentView {
 
     override fun onBackPressed() {
         (activity as BaseActivity).onNavigationClick((activity as BaseActivity).toolbar)
-    }
-
-    override fun someError(tag: String) {
-        AppLogger.e("$tag, " + getString(R.string.some_error))
-        showSnackBar("$tag, " + getString(R.string.some_error), Snackbar.LENGTH_SHORT)
     }
 }

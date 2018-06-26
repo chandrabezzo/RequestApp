@@ -49,41 +49,32 @@ constructor(val dataManager: DataManagerContract,
                 if (error.errorCode == 401) {
                     logout()
                 } else {
-                    if (view != null){
-                        view?.showToast(apiError.message!!, Toast.LENGTH_SHORT)
-                    }
+                    view?.showToast(apiError.message!!, Toast.LENGTH_SHORT)
                 }
             } else {
-                if (view != null){
-                    view?.showToast(error.message!!, Toast.LENGTH_SHORT)
-                }
-                else {
-                    view?.showToast("Ada Kesalahan", Toast.LENGTH_SHORT)
-                }
+                view?.showToast(error.message!!, Toast.LENGTH_SHORT)
             }
         }
         else {
-            if (view != null){
-                if (error.toString().contains("UnknownHost")){
-                    view?.showToast("Service tidak ditemukan", Toast.LENGTH_SHORT)
-                }
-                else if (error.toString().contains("timed out") || error.toString().contains("timeout")){
-                    view?.showToast("Pastikan internet Anda stabil", Toast.LENGTH_SHORT)
-                }
-                else if (error.toString().contains("java") || error.toString().contains("html")){
-                    view?.showToast("Kesalahan Server", Toast.LENGTH_SHORT)
-                }
-                else if (error.errorBody != null) {
-                    if (error.errorBody.contains("html") || error.errorBody.contains("java")) {
-                        view?.showToast("Kesalahan Server", Toast.LENGTH_SHORT)
-                    }
-                    else {
-                        view?.showToast("Ada Kesalahan", Toast.LENGTH_SHORT)
-                    }
+            if (error.toString().contains("UnknownHost")){
+                view?.handleError(1)
+            }
+            else if (error.toString().contains("timed out") || error.toString().contains("timeout")){
+                view?.handleError(2)
+            }
+            else if (error.toString().contains("java") || error.toString().contains("html")){
+                view?.handleError(3)
+            }
+            else if (error.errorBody != null) {
+                if (error.errorBody.contains("html") || error.errorBody.contains("java")) {
+                    view?.handleError(3)
                 }
                 else {
-                    view?.showToast("Tidak terhubung ke server", Toast.LENGTH_SHORT)
+                    view?.handleError(6)
                 }
+            }
+            else {
+                view?.handleError(4)
             }
         }
     }
@@ -103,7 +94,7 @@ constructor(val dataManager: DataManagerContract,
     override fun logout() {
         clearLog()
 
-        view?.showToast("You Have No Access", Toast.LENGTH_SHORT)
+        view?.handleError(5)
         view?.openActivityOnTokenExpire()
     }
 

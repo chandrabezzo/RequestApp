@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter
  * Created by bezzo on 08/11/17.
  */
 
-class Sample2VPAdapter(fm: FragmentManager, val context: Context) : FragmentStatePagerAdapter(fm) {
+class Sample2VPAdapter(val context: Context, fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
 
     val PAGE_COUNT = 3
     var tabTitles: Array<String> = arrayOf("Fragment1", "Fragment2", "Fragment3")

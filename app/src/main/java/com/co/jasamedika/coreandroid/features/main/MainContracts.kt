@@ -5,6 +5,7 @@ import com.co.jasamedika.coreandroid.base.BaseActivityView
 import com.co.jasamedika.coreandroid.base.BasePresenterContract
 import com.co.jasamedika.coreandroid.data.model.general.Karyawan
 import com.co.jasamedika.coreandroid.data.model.jabatan.Jabatan
+import com.co.jasamedika.coreandroid.data.model.user.Socmed
 
 class MainContracts {
 
@@ -20,6 +21,8 @@ class MainContracts {
         fun showKaryawan(values : List<Karyawan>)
 
         fun hideRefreshing()
+
+        fun showSocmed(value : Socmed)
     }
 
     interface Presenter<V : View> : BasePresenterContract<V> {
@@ -36,5 +39,9 @@ class MainContracts {
         fun getAllKaryawan()
 
         fun loadMoreKaryawan(limit : Int)
+
+        fun getSocmedApi()
+
+        fun getSocmed()
     }
 }

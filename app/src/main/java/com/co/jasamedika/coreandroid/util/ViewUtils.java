@@ -43,11 +43,11 @@ public final class ViewUtils {
         return Math.round(dp * density);
     }
 
-    public static void changeIconDrawableToGray(Context context, Drawable drawable) {
+    public static void changeIconColor(Context context, Drawable drawable, Integer color) {
         if (drawable != null) {
             drawable.mutate();
             drawable.setColorFilter(ContextCompat
-                    .getColor(context, R.color.dark_gray), PorterDuff.Mode.SRC_ATOP);
+                    .getColor(context, color), PorterDuff.Mode.SRC_ATOP);
         }
     }
 }

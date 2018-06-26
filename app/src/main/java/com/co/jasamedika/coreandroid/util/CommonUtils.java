@@ -9,10 +9,11 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Color;
+import android.graphics.*;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.icu.text.SimpleDateFormat;
+import android.net.*;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
@@ -42,6 +43,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.inject.*;
 
 /**
  * Created by bezzo on 26/09/17.
@@ -151,13 +154,6 @@ public final class CommonUtils {
         return new Locale("in", "ID");
     }
 
-    public static String getPriceRp(Double price){
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("in","ID"));
-
-        return currencyFormat.format(price);
-    }
-
-
     public static String getPriceFormat(Locale locale, double price){
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(locale);
 
@@ -213,13 +209,17 @@ public final class CommonUtils {
                 apiAvailability.getErrorDialog(activity, resultCode, 0).show();
             }
             else {
-                AppLogger.e("Not support Google Play Service");
-                Toast.makeText(activity, "This device is not supported", Toast.LENGTH_SHORT).show();
+                AppLogger.e(activity.getString(R.string.not_support_play_service));
+                Toast.makeText(activity, activity.getString(R.string.device_not_support), Toast.LENGTH_SHORT).show();
                 activity.finish();
             }
             return false;
         }
         return true;
+    }
+
+    public static Typeface setTypeface(Context context, String font) {
+        return Typeface.createFromAsset(context.getAssets(), font);
     }
 
     public static boolean isServiceRunning(Activity activity, Class<?> serviceClass) {
@@ -230,6 +230,13 @@ public final class CommonUtils {
             }
         }
         return false;
+    }
+
+    public static boolean isNetworkConnected(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
+                .CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork != null) && (activeNetwork.isConnectedOrConnecting());
     }
 
     public static <V> String convertObjectToJson(V object){

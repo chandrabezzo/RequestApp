@@ -4,13 +4,17 @@ import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.TypeConverters
 import android.arch.persistence.room.migration.Migration
 import android.content.Context
+import com.co.jasamedika.coreandroid.data.local.sampleDB.converter.AlamatConverter
 import com.co.jasamedika.coreandroid.data.local.sampleDB.dao.JabatanDao
 import com.co.jasamedika.coreandroid.data.local.sampleDB.dao.KaryawanDao
+import com.co.jasamedika.coreandroid.data.local.sampleDB.dao.SocmedDao
 import com.co.jasamedika.coreandroid.data.local.sampleDB.dao.UserDao
 import com.co.jasamedika.coreandroid.data.model.general.Karyawan
 import com.co.jasamedika.coreandroid.data.model.jabatan.Jabatan
+import com.co.jasamedika.coreandroid.data.model.user.Socmed
 import com.co.jasamedika.coreandroid.data.model.user.User
 import com.co.jasamedika.coreandroid.di.ApplicationContext
 import com.co.jasamedika.coreandroid.util.constanta.AppConstans
@@ -20,13 +24,14 @@ import com.co.jasamedika.coreandroid.util.constanta.AppConstans
  * Add more entities = arrayOf(UserLokal::class, SampleBTable::class)
  * Add more converter must unique
  */
-@Database(entities = [(User::class), (Jabatan::class), (Karyawan::class)], version = 1)
-//@TypeConverters(UserLokal::class, UserLokal::class)
+@Database(entities = [(User::class), (Jabatan::class), (Karyawan::class), (Socmed::class)], version = 1)
+@TypeConverters(AlamatConverter::class)
 abstract class SampleDatabase : RoomDatabase() {
 
     abstract fun user() : UserDao
     abstract fun jabatan() : JabatanDao
     abstract fun karyawan() : KaryawanDao
+    abstract fun socmed() : SocmedDao
 
     companion object {
         @Volatile private var INSTANCE: SampleDatabase? = null

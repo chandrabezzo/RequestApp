@@ -6,7 +6,7 @@ package com.co.jasamedika.coreandroid.util.constanta;
 
 public final class AppConstans {
 
-    public static final String TIMESTAMP_FORMAT = "yyyyMMdd_HHmmss";
+    public static final String TIMESTAMP_FORMAT = "dd/MM/yyyy HH:mm";
     public static final int API_STATUS_CODE_LOCAL_ERROR = 0;
     public static final String DB_NAME = "android.db";
     public static final String PROFILE = "profile";
@@ -18,4 +18,5 @@ public final class AppConstans {
     public static final String USER = "User";
     public static final String JABATAN = "Jabatan";
     public static final String KARYAWAN = "Karyawan";
+    public static final String SOCMED = "Socmed";
 }

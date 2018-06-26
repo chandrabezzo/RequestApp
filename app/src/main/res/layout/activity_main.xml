@@ -37,11 +37,53 @@
         android:layout_marginEnd="16dp"/>
 
     <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_title_alamat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alamat"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@id/tv_user"
+        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        android:layout_marginEnd="16dp"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_alamat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/black_effective"
+        android:layout_below="@id/tv_title_alamat"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_title_socmed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/socmed"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@id/tv_alamat"
+        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        android:layout_marginEnd="16dp"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_socmed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/black_effective"
+        android:layout_below="@id/tv_title_socmed"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_title_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/list"
-        android:layout_below="@id/tv_user"
+        android:layout_below="@id/tv_socmed"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:textColor="@color/colorAccent"

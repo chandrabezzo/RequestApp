@@ -1,12 +1,16 @@
 package com.co.jasamedika.coreandroid.data.network
 
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.OkHttpResponseAndParsedRequestListener
 import com.co.jasamedika.coreandroid.data.model.general.Karyawan
 import com.co.jasamedika.coreandroid.data.model.jabatan.Jabatan
 import com.co.jasamedika.coreandroid.data.model.jabatan.JabatanResponse
 import com.co.jasamedika.coreandroid.data.model.user.UserResponse
 import com.co.jasamedika.coreandroid.data.session.SessionHelperContract
 import com.co.jasamedika.coreandroid.util.SchedulerProvider
+import com.rx2androidnetworking.Rx2ANRequest
 import io.reactivex.Observable
+import okhttp3.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,9 +37,11 @@ constructor(val schedulerProvider: SchedulerProvider) : ApiHelperContract {
                 .compose(schedulerProvider.ioToMainObservableScheduler())
     }
 
-    override fun getKaryawan(params: HashMap<String, String>): Observable<List<Karyawan>> {
+    override fun getKaryawan(params: HashMap<String, String>): Rx2ANRequest {
         return RestApi.get(ApiEndPoint.KARYAWAN, params, null, null)
-                .getObjectListObservable(Karyawan::class.java)
-                .compose(schedulerProvider.ioToMainObservableScheduler())
+    }
+
+    override fun getSocmed(): Rx2ANRequest {
+        return RestApi.get(ApiEndPoint.SOCMED, null, null, null)
     }
 }
