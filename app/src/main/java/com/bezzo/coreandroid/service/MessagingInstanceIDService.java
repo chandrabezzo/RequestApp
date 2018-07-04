@@ -1,32 +1,15 @@
 package com.bezzo.coreandroid.service;
 
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener;
-import com.bezzo.coreandroid.MvpApp;
-import com.bezzo.coreandroid.data.DataManagerContract;
-import com.bezzo.coreandroid.di.component.DaggerServiceComponent;
-import com.bezzo.coreandroid.di.component.ServiceComponent;
-import com.bezzo.coreandroid.util.AppLogger;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.inject.Inject;
-
-import okhttp3.Response;
+import com.bezzo.coreandroid.*;
+import com.bezzo.coreandroid.di.component.*;
+import com.bezzo.coreandroid.util.*;
+import com.google.firebase.iid.*;
 
 /**
  * Created by bezzo on 21/02/18.
  */
 
 public class MessagingInstanceIDService extends FirebaseInstanceIdService {
-
-    @Inject
-    DataManagerContract mDataManager;
 
     @Override
     public void onCreate() {

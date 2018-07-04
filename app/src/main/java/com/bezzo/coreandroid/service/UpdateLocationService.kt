@@ -8,17 +8,13 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
 import android.os.IBinder
-import com.androidnetworking.error.ANError
-import com.androidnetworking.interfaces.OkHttpResponseListener
 import com.bezzo.coreandroid.MvpApp
-import com.bezzo.coreandroid.data.DataManagerContract
-import com.bezzo.coreandroid.data.network.ApiEndPoint
 import com.bezzo.coreandroid.data.session.SessionConstants
+import com.bezzo.coreandroid.data.session.SessionHelperContract
 import com.bezzo.coreandroid.di.component.DaggerServiceComponent
 import com.bezzo.coreandroid.util.AppLogger
 import com.bezzo.coreandroid.util.Gps
 import com.google.android.gms.location.*
-import okhttp3.Response
 import javax.inject.Inject
 
 /**
@@ -27,7 +23,7 @@ import javax.inject.Inject
 class UpdateLocationService : Service(), LocationListener {
 
     @Inject
-    lateinit var dataManager : DataManagerContract
+    lateinit var sessionHelper : SessionHelperContract
 
     lateinit var mLocationRequest: LocationRequest
     val UPDATE_INTERVAL = (10*1000).toLong() // 10 sec
@@ -123,8 +119,8 @@ class UpdateLocationService : Service(), LocationListener {
             currentLatitude = location.latitude
             currentLongitude = location.longitude
 
-            lastLocation.latitude = dataManager.getSession(SessionConstants.LATITUDE, 0.toDouble())!!
-            lastLocation.longitude = dataManager.getSession(SessionConstants.LONGITUDE, 0.toDouble())!!
+            lastLocation.latitude = sessionHelper.getSession(SessionConstants.LATITUDE, 0.toDouble())!!
+            lastLocation.longitude = sessionHelper.getSession(SessionConstants.LONGITUDE, 0.toDouble())!!
 
             var jarak = location.distanceTo(lastLocation)
 
@@ -143,7 +139,7 @@ class UpdateLocationService : Service(), LocationListener {
 
     fun updateLocation(latitude : String, longitude : String){
         var headers = HashMap<String, String>()
-        headers[SessionConstants.TOKEN] = dataManager.getSession(SessionConstants.TOKEN, "")
+        headers[SessionConstants.TOKEN] = sessionHelper.getSession(SessionConstants.TOKEN, "")
 
         var params = HashMap<String, String>()
         params["latitude"] = latitude
@@ -155,8 +151,8 @@ class UpdateLocationService : Service(), LocationListener {
     fun showUpdated(){
         // untuk cek updatedLastLocation
 //        Toast.makeText(this, "Lokasi $currentLatitude & $currentLongitude", Toast.LENGTH_SHORT).show()
-        dataManager.addSession(SessionConstants.LATITUDE, currentLatitude)
-        dataManager.addSession(SessionConstants.LONGITUDE, currentLongitude)
+        sessionHelper.addSession(SessionConstants.LATITUDE, currentLatitude)
+        sessionHelper.addSession(SessionConstants.LONGITUDE, currentLongitude)
     }
 
     fun startLocationUpdates(locationRequest: LocationRequest) {

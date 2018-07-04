@@ -3,7 +3,11 @@ package com.bezzo.coreandroid.di.component
 import android.app.Application
 import android.content.Context
 import com.bezzo.coreandroid.MvpApp
-import com.bezzo.coreandroid.data.DataManagerContract
+import com.bezzo.coreandroid.data.local.LocalStorageHelper
+import com.bezzo.coreandroid.data.network.ApiHelper
+import com.bezzo.coreandroid.data.network.ApiHelperContract
+import com.bezzo.coreandroid.data.session.SessionHelper
+import com.bezzo.coreandroid.data.session.SessionHelperContract
 import com.bezzo.coreandroid.di.ApplicationContext
 import com.bezzo.coreandroid.di.module.ApplicationModule
 import com.bezzo.coreandroid.service.MessagingInstanceIDService
@@ -20,8 +24,6 @@ import javax.inject.Singleton
 @Component(modules = [(ApplicationModule::class)])
 interface ApplicationComponent {
 
-    val dataManager: DataManagerContract
-
     fun inject(app: MvpApp)
 
     fun inject(messagingInstanceIDService: MessagingInstanceIDService)
@@ -34,4 +36,10 @@ interface ApplicationComponent {
     fun context(): Context
 
     fun application(): Application
+
+    fun apiHelper() : ApiHelperContract
+
+    fun sessionHelper() : SessionHelperContract
+
+    fun localHelper() : LocalStorageHelper
 }

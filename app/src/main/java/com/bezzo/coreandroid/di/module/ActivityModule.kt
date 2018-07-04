@@ -46,12 +46,12 @@ class ActivityModule(private val mActivity: AppCompatActivity) {
     }
 
     @Provides
+    fun provideSchedulerProvider(): SchedulerProvider = SchedulerProvider()
+
+    @Provides
     @PerActivity
     fun provideMainPresenter(presenter: MainPresenter<MainContracts.View>):
             MainContracts.Presenter<MainContracts.View> {
         return presenter
     }
-
-    @Provides
-    fun provideSchedulerProvider(): SchedulerProvider = SchedulerProvider()
 }

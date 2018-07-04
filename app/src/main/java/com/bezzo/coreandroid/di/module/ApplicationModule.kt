@@ -2,8 +2,6 @@ package com.bezzo.coreandroid.di.module
 
 import android.app.Application
 import android.content.Context
-import com.bezzo.coreandroid.data.DataManager
-import com.bezzo.coreandroid.data.DataManagerContract
 import com.bezzo.coreandroid.data.local.LocalStorageHelper
 import com.bezzo.coreandroid.data.local.LocalStorageHelperContract
 import com.bezzo.coreandroid.data.network.ApiHelper
@@ -38,12 +36,6 @@ class ApplicationModule(private val mApplication: Application) {
     @Provides
     fun provideDatabaseName(): String {
         return AppConstans.DB_NAME
-    }
-
-    @Provides
-    @Singleton
-    fun provideDataManager(appDataManager: DataManager): DataManagerContract {
-        return appDataManager
     }
 
     @Provides

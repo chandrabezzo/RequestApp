@@ -2,9 +2,11 @@ package com.bezzo.coreandroid.base
 
 import android.widget.Toast
 import com.androidnetworking.error.ANError
-import com.bezzo.coreandroid.data.DataManagerContract
+import com.bezzo.coreandroid.data.local.LocalStorageHelper
 import com.bezzo.coreandroid.data.model.general.ApiError
+import com.bezzo.coreandroid.data.network.ApiHelperContract
 import com.bezzo.coreandroid.data.session.SessionConstants
+import com.bezzo.coreandroid.data.session.SessionHelperContract
 import com.bezzo.coreandroid.util.AppLogger
 import com.bezzo.coreandroid.util.CommonUtils
 import com.bezzo.coreandroid.util.SchedulerProvider
@@ -18,8 +20,10 @@ import javax.inject.Inject
  */
 
 open class BasePresenter<V : BaseView> @Inject
-constructor(val dataManager: DataManagerContract,
-            val schedulerProvider : SchedulerProvider,
+constructor(val apiHelper: ApiHelperContract,
+            val sessionHelper : SessionHelperContract,
+            val localHelper : LocalStorageHelper,
+            val schedulerProvider: SchedulerProvider,
             val compositeDisposable: CompositeDisposable) : BasePresenterContract<V> {
 
     @Inject
@@ -80,12 +84,12 @@ constructor(val dataManager: DataManagerContract,
     }
 
     override fun setUserAsLoggedOut() {
-        dataManager
+
     }
 
     override fun clearLog() {
-        dataManager.setLogin(false)
-        dataManager.deleteSession(SessionConstants.TOKEN)
+        sessionHelper.setLogin(false)
+        sessionHelper.deleteSession(SessionConstants.TOKEN)
 
         val exec = Executors.newSingleThreadExecutor()
         exec.execute { }

@@ -1,16 +1,16 @@
 package com.bezzo.coreandroid.features.main
 
 import com.androidnetworking.error.ANError
-import com.bezzo.coreandroid.data.DataManagerContract
-import com.bezzo.coreandroid.data.model.jabatan.JabatanResponse
-import com.bezzo.coreandroid.data.model.user.UserResponse
-import com.bezzo.coreandroid.data.network.ResponseHandler
 import com.bezzo.coreandroid.base.BasePresenter
+import com.bezzo.coreandroid.data.local.LocalStorageHelper
 import com.bezzo.coreandroid.data.model.general.Karyawan
+import com.bezzo.coreandroid.data.model.jabatan.JabatanResponse
 import com.bezzo.coreandroid.data.model.user.Socmed
-import com.bezzo.coreandroid.data.network.ApiEndPoint
+import com.bezzo.coreandroid.data.model.user.UserResponse
+import com.bezzo.coreandroid.data.network.ApiHelperContract
+import com.bezzo.coreandroid.data.network.ResponseHandler
 import com.bezzo.coreandroid.data.network.ResponseOkHttp
-import com.bezzo.coreandroid.data.network.RestApi
+import com.bezzo.coreandroid.data.session.SessionHelperContract
 import com.bezzo.coreandroid.util.AppLogger
 import com.bezzo.coreandroid.util.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
@@ -28,21 +28,22 @@ import javax.inject.Inject
  */
 
 class MainPresenter<V : MainContracts.View> @Inject
-constructor(dataManager: DataManagerContract, schedulerProvider: SchedulerProvider, compositeDisposable: CompositeDisposable)
-    : BasePresenter<V>(dataManager, schedulerProvider, compositeDisposable), MainContracts.Presenter<V> {
+constructor(apiHelper: ApiHelperContract, sessionHelper: SessionHelperContract, localHelper: LocalStorageHelper,
+            schedulerProvider: SchedulerProvider, compositeDisposable: CompositeDisposable)
+    : BasePresenter<V>(apiHelper, sessionHelper, localHelper, schedulerProvider, compositeDisposable), MainContracts.Presenter<V> {
 
     override fun getKaryawanApi() {
         var params = HashMap<String, String>()
         params["_page"] = "1"
         params["_limit"] = "15"
 
-        dataManager.getKaryawan(params)
+        apiHelper.getKaryawan(params)
                 .getAsOkHttpResponseAndObjectList(Karyawan::class.java, object : ResponseOkHttp<List<Karyawan>>(200) {
                     override fun onSuccess(response: Response, model: List<Karyawan>) {
                         val exec = Executors.newSingleThreadExecutor()
                         exec.execute {
-                            dataManager.localStorageHelper.sampleDatabase.karyawan().deleteAll()
-                            dataManager.localStorageHelper.sampleDatabase.karyawan()
+                            localHelper.sampleDatabase.karyawan().deleteAll()
+                            localHelper.sampleDatabase.karyawan()
                                     .inserts(model)
                         }
 
@@ -65,7 +66,7 @@ constructor(dataManager: DataManagerContract, schedulerProvider: SchedulerProvid
     }
 
     override fun getAllKaryawan() {
-        compositeDisposable.add(dataManager.localStorageHelper.sampleDatabase.karyawan()
+        compositeDisposable.add(localHelper.sampleDatabase.karyawan()
                 .getAll().compose(schedulerProvider.ioToMainFlowableScheduler())
                 .subscribe({
                     view?.hideRefreshing()
@@ -80,13 +81,13 @@ constructor(dataManager: DataManagerContract, schedulerProvider: SchedulerProvid
         params["_page"] = "1"
         params["_limit"] = limit.toString()
 
-        dataManager.getKaryawan(params)
+        apiHelper.getKaryawan(params)
                 .getAsOkHttpResponseAndObjectList(Karyawan::class.java, object : ResponseOkHttp<List<Karyawan>>(200) {
                     override fun onSuccess(response: Response, model: List<Karyawan>) {
                         val exec = Executors.newSingleThreadExecutor()
                         exec.execute {
-                            dataManager.localStorageHelper.sampleDatabase.karyawan().deleteAll()
-                            dataManager.localStorageHelper.sampleDatabase.karyawan()
+                            localHelper.sampleDatabase.karyawan().deleteAll()
+                            localHelper.sampleDatabase.karyawan()
                                     .inserts(model)
                         }
 
@@ -110,7 +111,7 @@ constructor(dataManager: DataManagerContract, schedulerProvider: SchedulerProvid
     }
 
     override fun getUserLocal() {
-        dataManager.localStorageHelper.sampleDatabase.user().get(1)
+        localHelper.sampleDatabase.user().get(1)
                 .compose(schedulerProvider.ioToMainFlowableScheduler())
                 .subscribe({
                     view?.showUser(it)
@@ -120,13 +121,13 @@ constructor(dataManager: DataManagerContract, schedulerProvider: SchedulerProvid
     }
 
     override fun getJabatanApi() {
-        compositeDisposable.add(dataManager.getJabatan()
+        compositeDisposable.add(apiHelper.getJabatan()
                 .subscribe(object : ResponseHandler<JabatanResponse>(200){
                     override fun onSuccess(model: JabatanResponse) {
                         val exec = Executors.newSingleThreadExecutor()
                         exec.execute {
-                            dataManager.localStorageHelper.sampleDatabase.jabatan().deleteAll()
-                            dataManager.localStorageHelper.sampleDatabase.jabatan()
+                            localHelper.sampleDatabase.jabatan().deleteAll()
+                            localHelper.sampleDatabase.jabatan()
                                     .inserts(model.data!!)
                         }
 
@@ -149,7 +150,7 @@ constructor(dataManager: DataManagerContract, schedulerProvider: SchedulerProvid
     }
 
     override fun getAllJabatan() {
-        compositeDisposable.add(dataManager.localStorageHelper.sampleDatabase.jabatan()
+        compositeDisposable.add(localHelper.sampleDatabase.jabatan()
                 .getAll().compose(schedulerProvider.ioToMainFlowableScheduler())
                 .subscribe({
                     view?.showJabatan(it)
@@ -159,13 +160,13 @@ constructor(dataManager: DataManagerContract, schedulerProvider: SchedulerProvid
     }
 
     override fun getUserApi() {
-        compositeDisposable.add(dataManager.getUser()
+        compositeDisposable.add(apiHelper.getUser()
                 .subscribe(object : ResponseHandler<UserResponse>(200){
                     override fun onSuccess(model: UserResponse) {
                         val exec = Executors.newSingleThreadExecutor()
                         exec.execute {
-                            dataManager.localStorageHelper.sampleDatabase.user().deleteAll()
-                            dataManager.localStorageHelper.sampleDatabase.user()
+                            localHelper.sampleDatabase.user().deleteAll()
+                            localHelper.sampleDatabase.user()
                                     .insert(model.data!!)
                         }
 
@@ -188,13 +189,13 @@ constructor(dataManager: DataManagerContract, schedulerProvider: SchedulerProvid
     }
 
     override fun getSocmedApi() {
-        dataManager.getSocmed()
+        apiHelper.getSocmed()
                 .getAsOkHttpResponseAndObject(Socmed::class.java, object : ResponseOkHttp<Socmed>(200){
                     override fun onSuccess(response: Response, model: Socmed) {
                         val exec = Executors.newSingleThreadExecutor()
                         exec.execute {
-                            dataManager.localStorageHelper.sampleDatabase.socmed().deleteAll()
-                            dataManager.localStorageHelper.sampleDatabase.socmed()
+                            localHelper.sampleDatabase.socmed().deleteAll()
+                            localHelper.sampleDatabase.socmed()
                                     .insert(model)
                         }
 
@@ -216,7 +217,7 @@ constructor(dataManager: DataManagerContract, schedulerProvider: SchedulerProvid
     }
 
     override fun getSocmed() {
-        compositeDisposable.add(dataManager.localStorageHelper.sampleDatabase.socmed().get()
+        compositeDisposable.add(localHelper.sampleDatabase.socmed().get()
                 .compose(schedulerProvider.ioToMainFlowableScheduler())
                 .subscribe({
                     view?.showSocmed(it)
