@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
+import com.bezzo.coreandroid.*;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.*;
 
 /**
  * Created by bezzo on 22/12/17.
@@ -34,8 +36,12 @@ public class ZoomImage {
 
         if (mCurrentAnimatorEffect != null) mCurrentAnimatorEffect.cancel();
 
-        Glide.with(context).load(urlPhoto)
-                .apply(CommonUtils.requestImageHandler())
+        GlideApp.with(context)
+                .load(urlPhoto)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_launcher_foreground)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(ivExpandedPhoto);
 
         final Rect startBounds = new Rect();

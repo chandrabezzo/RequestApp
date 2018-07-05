@@ -21,10 +21,9 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.bezzo.coreandroid.R;
 import com.bezzo.coreandroid.util.constanta.AppConstans;
 import com.google.android.gms.common.ConnectionResult;
@@ -43,8 +42,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.inject.*;
 
 /**
  * Created by bezzo on 26/09/17.
@@ -129,17 +126,6 @@ public final class CommonUtils {
         }
 
         return true;
-    }
-
-    public static RequestOptions requestImageHandler() {
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(R.mipmap.ic_launcher);
-        requestOptions.error(R.mipmap.ic_launcher);
-        // uncomment if you need to clear cache
-        requestOptions.skipMemoryCache(true);
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
-
-        return requestOptions;
     }
 
     public static void autoHideFab(FloatingActionButton fabView, int dy){

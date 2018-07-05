@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.50'
+    ext.kotlin_version = '1.2.51'
     repositories {
         google()
         jcenter()
@@ -38,27 +38,26 @@ ext {
     supportLibraryVersion = '27.1.1'
     roomVersion = '1.1.1'
     roomCompilerVersion = '1.0.0'
-    roomPagingVersion = '1.0.0-beta1'
     androidArchVersion = '1.0.0'
     hawkVersion = '2.0.1'
     rx2FastAndroidNetworking = '1.0.1'
-    glideVersion = '4.6.1'
+    glideVersion = '4.7.1'
     gsonVersion = '2.8.0'
-    debugDBVersion = '1.0.3'
+    debugDBVersion = '1.0.4'
     dagger2Version = '2.8'
     daggerAndroidSupportVersion = '2.14.1'
-    rxjava2Version = '2.1.4'
+    rxjava2Version = '2.1.16'
     rxandroidVersion = '2.0.2'
     butterKnifeVersion = '8.8.1'
-    timberVersion = '4.6.0'
+    timberVersion = '4.7.1'
     junitVersion = '4.12'
     mockitoVersion = '2.8.47'
     dagger2Version = '2.16'
     espressoVersion = '2.2.2'
     constraintLayoutVersion = '1.1.2'
     playServiceVersion = '15.0.1'
-    firebaseVersion = '16.0.0'
-    dexterVersion = '4.2.0'
+    firebaseVersion = '16.0.1'
+    dexterVersion = '5.0.0'
     multiDexVersion = '1.0.3'
     mapsUtils = '0.5+'
     materialCalendarViewVersion = '1.4.3'
