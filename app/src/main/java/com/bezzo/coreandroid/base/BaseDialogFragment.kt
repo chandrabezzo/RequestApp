@@ -157,4 +157,8 @@ open abstract class BaseDialogFragment : DialogFragment(), BaseDialogFragmentVie
         ft.addToBackStack(null)
         show(ft, tag)
     }
+
+    override fun handleError(case: Int) {
+        (activity as BaseActivity).handleError(case)
+    }
 }

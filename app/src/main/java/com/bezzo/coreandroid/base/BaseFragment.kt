@@ -1,5 +1,6 @@
 package com.bezzo.coreandroid.base
 
+import android.app.Fragment
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
@@ -197,5 +198,9 @@ open abstract class BaseFragment : Fragment(), BaseFragmentView {
 
     override fun onBackPressed() {
         (activity as BaseActivity).onNavigationClick((activity as BaseActivity).toolbar)
+    }
+
+    override fun handleError(case: Int) {
+        (activity as BaseActivity).handleError(case)
     }
 }
