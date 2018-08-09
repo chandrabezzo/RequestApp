@@ -47,12 +47,12 @@ android {
     productFlavors {
         development {
             resValue "string", "app_name", "Core Android Dev"
-            buildConfigField("String", "BASE_URL", "\"http://192.168.0.227:3000/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.0.189:3000/\"")
         }
 
         production {
             resValue "string", "app_name", "Core Android"
-            buildConfigField("String", "BASE_URL", "\"http://10.42.0.1:3000/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.0.189:3000/\"")
         }
     }
 
@@ -86,7 +86,8 @@ dependencies {
     implementation "com.karumi:dexter:$rootProject.ext.dexterVersion"
 
     // # Networking
-    implementation "com.amitshekhar.android:rx2-android-networking:$rootProject.ext.rx2FastAndroidNetworking"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
 
     // # Image
     implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
@@ -119,6 +120,8 @@ dependencies {
     // # Reactive
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxjava2Version"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxandroidVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitRxAdapterVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.converterGsonRetrofit"
 
     // # Logger
     implementation "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"

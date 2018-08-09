@@ -5,7 +5,6 @@ import android.content.Context
 import com.bezzo.coreandroid.data.local.LocalStorageHelper
 import com.bezzo.coreandroid.data.local.LocalStorageHelperContract
 import com.bezzo.coreandroid.data.network.ApiHelper
-import com.bezzo.coreandroid.data.network.ApiHelperContract
 import com.bezzo.coreandroid.data.session.SessionHelper
 import com.bezzo.coreandroid.data.session.SessionHelperContract
 import com.bezzo.coreandroid.di.ApplicationContext
@@ -52,9 +51,7 @@ class ApplicationModule(private val mApplication: Application) {
 
     @Provides
     @Singleton
-    fun provideApiHelper(appApiHelper: ApiHelper): ApiHelperContract {
-        return appApiHelper
-    }
+    fun provideApiHelper() : ApiHelper = ApiHelper(mApplication.applicationContext)
 
     @Provides
     fun provideSchedulerProvider(): SchedulerProvider = SchedulerProvider()

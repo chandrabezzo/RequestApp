@@ -1,6 +1,5 @@
 package com.bezzo.coreandroid.base
 
-import android.app.Fragment
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
