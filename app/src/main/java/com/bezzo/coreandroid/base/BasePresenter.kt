@@ -3,7 +3,7 @@ package com.bezzo.coreandroid.base
 import android.widget.Toast
 import com.androidnetworking.error.ANError
 import com.bezzo.coreandroid.data.local.LocalStorageHelper
-import com.bezzo.coreandroid.data.model.general.ApiError
+import com.bezzo.coreandroid.data.model.ApiError
 import com.bezzo.coreandroid.data.network.ApiHelperContract
 import com.bezzo.coreandroid.data.session.SessionConstants
 import com.bezzo.coreandroid.data.session.SessionHelperContract

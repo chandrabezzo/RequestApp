@@ -1,4 +1,4 @@
-package com.bezzo.coreandroid.data.model.jabatan
+package com.bezzo.coreandroid.data.model
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
@@ -8,17 +8,17 @@ import com.bezzo.coreandroid.util.constanta.AppConstans
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = AppConstans.JABATAN)
-class Jabatan {
+@Entity(tableName = AppConstans.SOCMED)
+class Socmed {
+    @SerializedName("linkedin")
+    @ColumnInfo(name = "linkedin")
+    @Expose
+    var linkedin: String? = null
+
     @PrimaryKey
     @NonNull
-    @SerializedName("id")
-    @ColumnInfo(name = "id")
+    @SerializedName("email")
+    @ColumnInfo(name = "email")
     @Expose
-    var id: Int? = null
-
-    @SerializedName("jenis")
-    @ColumnInfo(name = "jenis")
-    @Expose
-    var jenis: String? = null
+    var email: String? = null
 }

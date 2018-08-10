@@ -1,4 +1,4 @@
-package com.bezzo.coreandroid.data.model.general
+package com.bezzo.coreandroid.data.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

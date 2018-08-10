@@ -1,18 +1,18 @@
 package com.bezzo.coreandroid.features.main
 
-import com.bezzo.coreandroid.data.model.user.User
 import com.bezzo.coreandroid.base.BaseActivityView
 import com.bezzo.coreandroid.base.BasePresenterContract
-import com.bezzo.coreandroid.data.model.general.Karyawan
-import com.bezzo.coreandroid.data.model.jabatan.Jabatan
-import com.bezzo.coreandroid.data.model.user.Socmed
+import com.bezzo.coreandroid.data.model.JabatanResponse
+import com.bezzo.coreandroid.data.model.Karyawan
+import com.bezzo.coreandroid.data.model.Socmed
+import com.bezzo.coreandroid.data.model.UserResponse
 
 class MainContracts {
 
     interface View : BaseActivityView {
-        fun showUser(user : User)
+        fun showUser(user : UserResponse.User)
 
-        fun showJabatan(jabatan : List<Jabatan>)
+        fun showJabatan(jabatan : List<JabatanResponse.Jabatan>)
 
         fun showLoadMore()
 

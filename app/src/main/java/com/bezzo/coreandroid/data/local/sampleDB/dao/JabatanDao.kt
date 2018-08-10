@@ -4,32 +4,32 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import com.bezzo.coreandroid.data.model.jabatan.Jabatan
+import com.bezzo.coreandroid.data.model.JabatanResponse
 import com.bezzo.coreandroid.util.constanta.AppConstans
 import io.reactivex.Flowable
 
 @Dao
 interface JabatanDao {
     @Query("SELECT * FROM " + AppConstans.JABATAN)
-    fun getAll(): Flowable<List<Jabatan>>
+    fun getAll(): Flowable<List<JabatanResponse.Jabatan>>
 
     @Query("SELECT * FROM " + AppConstans.JABATAN
             + " LIMIT 1")
-    fun get(): Flowable<Jabatan>
+    fun get(): Flowable<JabatanResponse.Jabatan>
 
     @Query("SELECT * FROM " + AppConstans.JABATAN
             + " LIMIT :limit")
-    fun getLimit(limit : Int): Flowable<Jabatan>
+    fun getLimit(limit : Int): Flowable<JabatanResponse.Jabatan>
 
     @Query("SELECT * FROM " + AppConstans.JABATAN
             + " WHERE id=:id")
-    fun get(id: Int): Flowable<Jabatan>
+    fun get(id: Int): Flowable<JabatanResponse.Jabatan>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(value : Jabatan)
+    fun insert(value : JabatanResponse.Jabatan)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun inserts(values : List<Jabatan>)
+    fun inserts(values : List<JabatanResponse.Jabatan>)
 
     @Query("DELETE FROM " + AppConstans.JABATAN)
     fun deleteAll()

@@ -1,9 +1,7 @@
 package com.bezzo.coreandroid.data.network
 
-import com.bezzo.coreandroid.data.model.general.Karyawan
-import com.bezzo.coreandroid.data.model.jabatan.Jabatan
-import com.bezzo.coreandroid.data.model.jabatan.JabatanResponse
-import com.bezzo.coreandroid.data.model.user.UserResponse
+import com.bezzo.coreandroid.data.model.JabatanResponse
+import com.bezzo.coreandroid.data.model.UserResponse
 import com.bezzo.coreandroid.data.session.SessionHelperContract
 import com.bezzo.coreandroid.util.SchedulerProvider
 import com.rx2androidnetworking.Rx2ANRequest
@@ -34,7 +32,11 @@ constructor(val schedulerProvider: SchedulerProvider) : ApiHelperContract {
                 .compose(schedulerProvider.ioToMainObservableScheduler())
     }
 
-    override fun getKaryawan(params: HashMap<String, String>): Rx2ANRequest {
+    override fun getKaryawan(page : String, limit : String): Rx2ANRequest {
+        var params = HashMap<String, String>()
+        params["_page"] = page
+        params["_limit"] = limit
+
         return RestApi.get(ApiEndPoint.KARYAWAN, params, null, null)
     }
 

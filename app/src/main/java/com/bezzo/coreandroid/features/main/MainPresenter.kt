@@ -3,10 +3,10 @@ package com.bezzo.coreandroid.features.main
 import com.androidnetworking.error.ANError
 import com.bezzo.coreandroid.base.BasePresenter
 import com.bezzo.coreandroid.data.local.LocalStorageHelper
-import com.bezzo.coreandroid.data.model.general.Karyawan
-import com.bezzo.coreandroid.data.model.jabatan.JabatanResponse
-import com.bezzo.coreandroid.data.model.user.Socmed
-import com.bezzo.coreandroid.data.model.user.UserResponse
+import com.bezzo.coreandroid.data.model.Karyawan
+import com.bezzo.coreandroid.data.model.JabatanResponse
+import com.bezzo.coreandroid.data.model.Socmed
+import com.bezzo.coreandroid.data.model.UserResponse
 import com.bezzo.coreandroid.data.network.ApiHelperContract
 import com.bezzo.coreandroid.data.network.ResponseHandler
 import com.bezzo.coreandroid.data.network.ResponseOkHttp
@@ -33,11 +33,7 @@ constructor(apiHelper: ApiHelperContract, sessionHelper: SessionHelperContract, 
     : BasePresenter<V>(apiHelper, sessionHelper, localHelper, schedulerProvider, compositeDisposable), MainContracts.Presenter<V> {
 
     override fun getKaryawanApi() {
-        var params = HashMap<String, String>()
-        params["_page"] = "1"
-        params["_limit"] = "15"
-
-        apiHelper.getKaryawan(params)
+        apiHelper.getKaryawan("1", "15")
                 .getAsOkHttpResponseAndObjectList(Karyawan::class.java, object : ResponseOkHttp<List<Karyawan>>(200) {
                     override fun onSuccess(response: Response, model: List<Karyawan>) {
                         val exec = Executors.newSingleThreadExecutor()
@@ -77,11 +73,7 @@ constructor(apiHelper: ApiHelperContract, sessionHelper: SessionHelperContract, 
     }
 
     override fun loadMoreKaryawan(limit: Int) {
-        var params = HashMap<String, String>()
-        params["_page"] = "1"
-        params["_limit"] = limit.toString()
-
-        apiHelper.getKaryawan(params)
+        apiHelper.getKaryawan("1", limit.toString())
                 .getAsOkHttpResponseAndObjectList(Karyawan::class.java, object : ResponseOkHttp<List<Karyawan>>(200) {
                     override fun onSuccess(response: Response, model: List<Karyawan>) {
                         val exec = Executors.newSingleThreadExecutor()

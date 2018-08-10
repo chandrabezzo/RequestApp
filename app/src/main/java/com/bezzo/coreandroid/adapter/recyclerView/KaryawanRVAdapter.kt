@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bezzo.coreandroid.R
 import com.bezzo.coreandroid.base.BaseHolder
-import com.bezzo.coreandroid.data.model.general.Karyawan
+import com.bezzo.coreandroid.data.model.Karyawan
 import kotlinx.android.synthetic.main.item_rv_sample.view.*
 
 /**
