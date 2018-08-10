@@ -1,7 +1,7 @@
 package com.bezzo.coreandroid.data.local.sampleDB.converter
 
 import android.arch.persistence.room.TypeConverter
-import com.bezzo.coreandroid.data.model.user.Alamat
+import com.bezzo.coreandroid.data.model.Alamat
 import com.google.gson.Gson
 
 class AlamatConverter {

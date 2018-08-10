@@ -12,10 +12,10 @@ import com.bezzo.coreandroid.data.local.sampleDB.dao.JabatanDao
 import com.bezzo.coreandroid.data.local.sampleDB.dao.KaryawanDao
 import com.bezzo.coreandroid.data.local.sampleDB.dao.SocmedDao
 import com.bezzo.coreandroid.data.local.sampleDB.dao.UserDao
-import com.bezzo.coreandroid.data.model.general.Karyawan
-import com.bezzo.coreandroid.data.model.jabatan.Jabatan
-import com.bezzo.coreandroid.data.model.user.Socmed
-import com.bezzo.coreandroid.data.model.user.User
+import com.bezzo.coreandroid.data.model.JabatanResponse
+import com.bezzo.coreandroid.data.model.Karyawan
+import com.bezzo.coreandroid.data.model.Socmed
+import com.bezzo.coreandroid.data.model.UserResponse
 import com.bezzo.coreandroid.di.ApplicationContext
 import com.bezzo.coreandroid.util.constanta.AppConstans
 
@@ -24,7 +24,9 @@ import com.bezzo.coreandroid.util.constanta.AppConstans
  * Add more entities = arrayOf(UserLokal::class, SampleBTable::class)
  * Add more converter must unique
  */
-@Database(entities = [(User::class), (Jabatan::class), (Karyawan::class), (Socmed::class)], version = 1)
+@Database(entities =
+    [(UserResponse.User::class), (JabatanResponse.Jabatan::class), (Karyawan::class),
+    (Socmed::class)], version = 1)
 @TypeConverters(AlamatConverter::class)
 abstract class SampleDatabase : RoomDatabase() {
 

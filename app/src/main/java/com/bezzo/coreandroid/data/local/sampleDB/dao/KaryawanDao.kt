@@ -4,7 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import com.bezzo.coreandroid.data.model.general.Karyawan
+import com.bezzo.coreandroid.data.model.Karyawan
 import com.bezzo.coreandroid.util.constanta.AppConstans
 import io.reactivex.Flowable
 

@@ -4,7 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import com.bezzo.coreandroid.data.model.user.User
+import com.bezzo.coreandroid.data.model.UserResponse
 import com.bezzo.coreandroid.util.constanta.AppConstans
 import io.reactivex.Flowable
 
@@ -21,25 +21,25 @@ import io.reactivex.Flowable
 interface UserDao {
 
     @Query("SELECT * FROM " + AppConstans.USER)
-    fun getAll(): Flowable<List<User>>
+    fun getAll(): Flowable<List<UserResponse.User>>
 
     @Query("SELECT * FROM " + AppConstans.USER
             + " LIMIT 1")
-    fun get(): Flowable<User>
+    fun get(): Flowable<UserResponse.User>
 
     @Query("SELECT * FROM " + AppConstans.USER
             + " LIMIT :limit")
-    fun getLimit(limit : Int): Flowable<User>
+    fun getLimit(limit : Int): Flowable<UserResponse.User>
 
     @Query("SELECT * FROM " + AppConstans.USER
             + " WHERE id=:id")
-    fun get(id: Int): Flowable<User>
+    fun get(id: Int): Flowable<UserResponse.User>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(value : User)
+    fun insert(value : UserResponse.User)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun inserts(values : ArrayList<User>)
+    fun inserts(values : ArrayList<UserResponse.User>)
 
     @Query("DELETE FROM " + AppConstans.USER)
     fun deleteAll()

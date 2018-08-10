@@ -1,8 +1,11 @@
 package com.bezzo.coreandroid.data.network
 
-import android.content.Context
-import com.bezzo.coreandroid.BuildConfig
-import com.bezzo.coreandroid.data.network.services.EmployeeServices
+import com.bezzo.coreandroid.data.model.JabatanResponse
+import com.bezzo.coreandroid.data.model.UserResponse
+import com.bezzo.coreandroid.data.session.SessionHelperContract
+import com.bezzo.coreandroid.util.SchedulerProvider
+import com.rx2androidnetworking.Rx2ANRequest
+import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,9 +15,32 @@ import javax.inject.Singleton
 
 @Singleton
 class ApiHelper @Inject
-constructor(val context: Context){
+constructor(val schedulerProvider: SchedulerProvider) : ApiHelperContract {
 
-    var employeeServices = NetworkClient.create(context, BuildConfig.BASE_URL)
-            .create(EmployeeServices::class.java)
+    @Inject
+    lateinit var session : SessionHelperContract
 
+    override fun getUser(): Observable<UserResponse> {
+        return RestApi.get(ApiEndPoint.USER, null, null, null)
+                .getObjectObservable(UserResponse::class.java)
+                .compose(schedulerProvider.ioToMainObservableScheduler())
+    }
+
+    override fun getJabatan(): Observable<JabatanResponse> {
+        return RestApi.get(ApiEndPoint.JABATAN, null, null, null)
+                .getObjectObservable(JabatanResponse::class.java)
+                .compose(schedulerProvider.ioToMainObservableScheduler())
+    }
+
+    override fun getKaryawan(page : String, limit : String): Rx2ANRequest {
+        var params = HashMap<String, String>()
+        params["_page"] = page
+        params["_limit"] = limit
+
+        return RestApi.get(ApiEndPoint.KARYAWAN, params, null, null)
+    }
+
+    override fun getSocmed(): Rx2ANRequest {
+        return RestApi.get(ApiEndPoint.SOCMED, null, null, null)
+    }
 }

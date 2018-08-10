@@ -7,11 +7,11 @@ import android.view.View
 import com.bezzo.coreandroid.R
 import com.bezzo.coreandroid.adapter.recyclerView.KaryawanRVAdapter
 import com.bezzo.coreandroid.adapter.spinner.JabatanSPAdapter
-import com.bezzo.coreandroid.data.model.user.User
 import com.bezzo.coreandroid.base.BaseActivity
-import com.bezzo.coreandroid.data.model.general.Karyawan
-import com.bezzo.coreandroid.data.model.jabatan.Jabatan
-import com.bezzo.coreandroid.data.model.user.Socmed
+import com.bezzo.coreandroid.data.model.JabatanResponse
+import com.bezzo.coreandroid.data.model.Karyawan
+import com.bezzo.coreandroid.data.model.Socmed
+import com.bezzo.coreandroid.data.model.UserResponse
 import com.bezzo.coreandroid.listener.OnLoadMoreListener
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class MainActivity : BaseActivity(), MainContracts.View {
     lateinit var linearLayoutManager : LinearLayoutManager
 
     lateinit var spAdapter : JabatanSPAdapter
-    var allJabatan = ArrayList<Jabatan>()
+    var allJabatan = ArrayList<JabatanResponse.Jabatan>()
     var allKaryawan = ArrayList<Karyawan>()
     lateinit var rvAdapter : KaryawanRVAdapter
     lateinit var onLoadMoreListener : OnLoadMoreListener
@@ -92,7 +92,7 @@ class MainActivity : BaseActivity(), MainContracts.View {
         super.onDestroy()
     }
 
-    override fun showUser(user: User) {
+    override fun showUser(user: UserResponse.User) {
         tv_user.text = user.nama + " - " + user.jabatan
         var rt = user.alamat!!.rt
         var rw = user.alamat!!.rw
@@ -102,7 +102,7 @@ class MainActivity : BaseActivity(), MainContracts.View {
         tv_alamat.text = "RT $rt / RW $rw, $kec, $kab"
     }
 
-    override fun showJabatan(jabatan: List<Jabatan>) {
+    override fun showJabatan(jabatan: List<JabatanResponse.Jabatan>) {
         spAdapter.update(jabatan)
     }
 

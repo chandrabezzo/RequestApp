@@ -1,21 +1,21 @@
 package com.bezzo.coreandroid.features.main
 
+import com.androidnetworking.error.ANError
 import com.bezzo.coreandroid.base.BasePresenter
-import com.bezzo.coreandroid.base.BaseResponse
 import com.bezzo.coreandroid.data.local.LocalStorageHelper
-import com.bezzo.coreandroid.data.model.general.Karyawan
-import com.bezzo.coreandroid.data.model.jabatan.Jabatan
-import com.bezzo.coreandroid.data.model.user.Socmed
-import com.bezzo.coreandroid.data.model.user.User
-import com.bezzo.coreandroid.data.network.ApiHelper
-import com.bezzo.coreandroid.data.network.RequestOkHttpHandler
-import com.bezzo.coreandroid.data.network.RequestRxHandler
+import com.bezzo.coreandroid.data.model.JabatanResponse
+import com.bezzo.coreandroid.data.model.Karyawan
+import com.bezzo.coreandroid.data.model.Socmed
+import com.bezzo.coreandroid.data.model.UserResponse
+import com.bezzo.coreandroid.data.network.ApiHelperContract
+import com.bezzo.coreandroid.data.network.ResponseHandler
+import com.bezzo.coreandroid.data.network.ResponseOkHttp
 import com.bezzo.coreandroid.data.session.SessionHelperContract
 import com.bezzo.coreandroid.util.AppLogger
 import com.bezzo.coreandroid.util.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
-import retrofit2.Response
+import okhttp3.Response
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
@@ -28,28 +28,37 @@ import javax.inject.Inject
  */
 
 class MainPresenter<V : MainContracts.View> @Inject
-constructor(apiHelper: ApiHelper, sessionHelper: SessionHelperContract, localHelper: LocalStorageHelper,
+constructor(apiHelper: ApiHelperContract, sessionHelper: SessionHelperContract, localHelper: LocalStorageHelper,
             schedulerProvider: SchedulerProvider, compositeDisposable: CompositeDisposable)
     : BasePresenter<V>(apiHelper, sessionHelper, localHelper, schedulerProvider, compositeDisposable), MainContracts.Presenter<V> {
 
     override fun getKaryawanApi() {
-        compositeDisposable.add(apiHelper.employeeServices.getKaryawan("1", "15")
-                .compose(schedulerProvider.ioToMainObservableScheduler())
-                .subscribe(object : RequestOkHttpHandler<ArrayList<Karyawan>>(200){
-                    override fun onSuccess(model: ArrayList<Karyawan>) {
-                        view?.showKaryawan(model)
+        apiHelper.getKaryawan("1", "15")
+                .getAsOkHttpResponseAndObjectList(Karyawan::class.java, object : ResponseOkHttp<List<Karyawan>>(200) {
+                    override fun onSuccess(response: Response, model: List<Karyawan>) {
+                        val exec = Executors.newSingleThreadExecutor()
+                        exec.execute {
+                            localHelper.sampleDatabase.karyawan().deleteAll()
+                            localHelper.sampleDatabase.karyawan()
+                                    .inserts(model)
+                        }
+
+                        getAllKaryawan()
                     }
 
-                    override fun onAuthorized() {
+                    override fun onUnauthorized() {
                         logout()
                     }
 
-                    override fun onError(response: Response<ArrayList<Karyawan>>) {
+                    override fun onFailed(response: Response) {
                         logging(response.message())
                     }
-                }, Consumer {
-                    handleApiError(it)
-                }))
+
+                    override fun onHasError(error: ANError) {
+                        handleApiError(error)
+                    }
+
+                })
     }
 
     override fun getAllKaryawan() {
@@ -64,22 +73,33 @@ constructor(apiHelper: ApiHelper, sessionHelper: SessionHelperContract, localHel
     }
 
     override fun loadMoreKaryawan(limit: Int) {
-        compositeDisposable.add(apiHelper.employeeServices.getKaryawan("1", limit.toString())
-                .compose(schedulerProvider.ioToMainObservableScheduler())
-                .subscribe(object : RequestOkHttpHandler<ArrayList<Karyawan>>(200){
-                    override fun onSuccess(model: ArrayList<Karyawan>) {
-                        view?.showKaryawan(model)
+        apiHelper.getKaryawan("1", limit.toString())
+                .getAsOkHttpResponseAndObjectList(Karyawan::class.java, object : ResponseOkHttp<List<Karyawan>>(200) {
+                    override fun onSuccess(response: Response, model: List<Karyawan>) {
+                        val exec = Executors.newSingleThreadExecutor()
+                        exec.execute {
+                            localHelper.sampleDatabase.karyawan().deleteAll()
+                            localHelper.sampleDatabase.karyawan()
+                                    .inserts(model)
+                        }
+
+                        view?.hideLoadMore()
+                        getAllKaryawan()
                     }
 
-                    override fun onAuthorized() {
+                    override fun onUnauthorized() {
                         logout()
                     }
 
-                    override fun onError(response: Response<ArrayList<Karyawan>>) {
+                    override fun onFailed(response: Response) {
                         logging(response.message())
                     }
 
-                }))
+                    override fun onHasError(error: ANError) {
+                        handleApiError(error)
+                    }
+
+                })
     }
 
     override fun getUserLocal() {
@@ -93,22 +113,31 @@ constructor(apiHelper: ApiHelper, sessionHelper: SessionHelperContract, localHel
     }
 
     override fun getJabatanApi() {
-        compositeDisposable.add(apiHelper.employeeServices.getJabatan()
-                .compose(schedulerProvider.ioToMainObservableScheduler())
-                .subscribe(object : RequestRxHandler<ArrayList<Jabatan>>(200){
-                    override fun onSuccess(model: ArrayList<Jabatan>) {
-                        view?.showJabatan(model)
+        compositeDisposable.add(apiHelper.getJabatan()
+                .subscribe(object : ResponseHandler<JabatanResponse>(200){
+                    override fun onSuccess(model: JabatanResponse) {
+                        val exec = Executors.newSingleThreadExecutor()
+                        exec.execute {
+                            localHelper.sampleDatabase.jabatan().deleteAll()
+                            localHelper.sampleDatabase.jabatan()
+                                    .inserts(model.data!!)
+                        }
+
+                        getAllJabatan()
                     }
 
-                    override fun onAuthorized() {
+                    override fun onUnauthorized() {
                         logout()
                     }
 
-                    override fun onError(response: BaseResponse<ArrayList<Jabatan>>) {
-                        logging(response.message)
+                    override fun onError(model: JabatanResponse) {
+                        logging(model.message)
                     }
+
                 }, Consumer {
-                    handleApiError(it)
+                   if (it is ANError) {
+                       handleApiError(it)
+                   }
                 }))
     }
 
@@ -123,43 +152,60 @@ constructor(apiHelper: ApiHelper, sessionHelper: SessionHelperContract, localHel
     }
 
     override fun getUserApi() {
-        compositeDisposable.add(apiHelper.employeeServices.getUser()
-                .compose(schedulerProvider.ioToMainObservableScheduler())
-                .subscribe(object : RequestRxHandler<User>(200){
-                    override fun onSuccess(model: User) {
-                        view?.showUser(model)
+        compositeDisposable.add(apiHelper.getUser()
+                .subscribe(object : ResponseHandler<UserResponse>(200){
+                    override fun onSuccess(model: UserResponse) {
+                        val exec = Executors.newSingleThreadExecutor()
+                        exec.execute {
+                            localHelper.sampleDatabase.user().deleteAll()
+                            localHelper.sampleDatabase.user()
+                                    .insert(model.data!!)
+                        }
+
+                        getUserLocal()
                     }
 
-                    override fun onAuthorized() {
+                    override fun onUnauthorized() {
                         logout()
                     }
 
-                    override fun onError(response: BaseResponse<User>) {
-                        logging(response.message)
+                    override fun onError(model: UserResponse) {
+                        logging(model.message)
                     }
+
                 }, Consumer {
-                    handleApiError(it)
+                    if (it is ANError){
+                        handleApiError(it)
+                    }
                 }))
     }
 
     override fun getSocmedApi() {
-        compositeDisposable.add(apiHelper.employeeServices.getSocmed()
-                .compose(schedulerProvider.ioToMainObservableScheduler())
-                .subscribe(object : RequestOkHttpHandler<Socmed>(200){
-                    override fun onSuccess(model: Socmed) {
-                        view?.showSocmed(model)
+        apiHelper.getSocmed()
+                .getAsOkHttpResponseAndObject(Socmed::class.java, object : ResponseOkHttp<Socmed>(200){
+                    override fun onSuccess(response: Response, model: Socmed) {
+                        val exec = Executors.newSingleThreadExecutor()
+                        exec.execute {
+                            localHelper.sampleDatabase.socmed().deleteAll()
+                            localHelper.sampleDatabase.socmed()
+                                    .insert(model)
+                        }
+
+                        getSocmed()
                     }
 
-                    override fun onAuthorized() {
+                    override fun onUnauthorized() {
                         logout()
                     }
 
-                    override fun onError(response: Response<Socmed>) {
+                    override fun onFailed(response: Response) {
                         logging(response.message())
                     }
-                }, Consumer {
-                    handleApiError(it)
-                }))
+
+                    override fun onHasError(error: ANError) {
+                        handleApiError(error)
+                    }
+                })
     }
 
     override fun getSocmed() {

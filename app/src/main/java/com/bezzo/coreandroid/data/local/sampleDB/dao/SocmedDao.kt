@@ -4,7 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import com.bezzo.coreandroid.data.model.user.Socmed
+import com.bezzo.coreandroid.data.model.Socmed
 import com.bezzo.coreandroid.util.constanta.AppConstans
 import io.reactivex.Flowable
 
