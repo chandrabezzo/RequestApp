@@ -3,8 +3,8 @@ package com.bezzo.coreandroid.features.main
 import com.androidnetworking.error.ANError
 import com.bezzo.coreandroid.base.BasePresenter
 import com.bezzo.coreandroid.data.local.LocalStorageHelper
-import com.bezzo.coreandroid.data.model.Karyawan
 import com.bezzo.coreandroid.data.model.JabatanResponse
+import com.bezzo.coreandroid.data.model.Karyawan
 import com.bezzo.coreandroid.data.model.Socmed
 import com.bezzo.coreandroid.data.model.UserResponse
 import com.bezzo.coreandroid.data.network.ApiHelperContract

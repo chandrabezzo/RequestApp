@@ -11,7 +11,7 @@ android {
     flavorDimensions "default"
 
     defaultConfig {
-        applicationId "com.jasamedika.coreandroid"
+        applicationId "com.bezzo.coreandroid"
         minSdkVersion 18
         targetSdkVersion 27
         multiDexEnabled true
