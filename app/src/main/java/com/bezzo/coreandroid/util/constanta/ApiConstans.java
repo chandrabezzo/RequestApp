@@ -6,6 +6,11 @@ package com.bezzo.coreandroid.util.constanta;
 
 public final class ApiConstans {
 
+    //Timeout
+    public static final int CONNECT_TIMEOUT = 30;
+    public static final int WRITE_TIMEOUT = 30;
+    public static final int READ_TIMEOUT = 30;
+
     //Component API
     public static final String DATA = "data";
     public static final String MESSAGE = "message";

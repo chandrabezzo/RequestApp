@@ -5,8 +5,7 @@ import android.content.Context
 import com.bezzo.coreandroid.MvpApp
 import com.bezzo.coreandroid.data.local.LocalStorageHelper
 import com.bezzo.coreandroid.data.network.ApiHelper
-import com.bezzo.coreandroid.data.network.ApiHelperContract
-import com.bezzo.coreandroid.data.session.SessionHelper
+import com.bezzo.coreandroid.data.network.services.EmployeeServices
 import com.bezzo.coreandroid.data.session.SessionHelperContract
 import com.bezzo.coreandroid.di.ApplicationContext
 import com.bezzo.coreandroid.di.module.ApplicationModule
@@ -37,7 +36,7 @@ interface ApplicationComponent {
 
     fun application(): Application
 
-    fun apiHelper() : ApiHelperContract
+    fun apiHelper() : ApiHelper
 
     fun sessionHelper() : SessionHelperContract
 

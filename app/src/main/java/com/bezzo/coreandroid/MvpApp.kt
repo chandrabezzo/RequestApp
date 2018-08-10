@@ -3,7 +3,6 @@ package com.bezzo.coreandroid
 import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDex
-import com.androidnetworking.AndroidNetworking
 import com.bezzo.coreandroid.di.component.ApplicationComponent
 import com.bezzo.coreandroid.di.component.DaggerApplicationComponent
 import com.bezzo.coreandroid.di.module.ApplicationModule
@@ -34,7 +33,5 @@ class MvpApp : Application() {
 
         AppLogger.init()
         Hawk.init(this).build()
-
-        AndroidNetworking.initialize(applicationContext)
     }
 }
