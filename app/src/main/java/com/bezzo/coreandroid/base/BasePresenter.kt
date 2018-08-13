@@ -4,9 +4,9 @@ import android.widget.Toast
 import com.androidnetworking.error.ANError
 import com.bezzo.coreandroid.data.local.LocalStorageHelper
 import com.bezzo.coreandroid.data.model.ApiError
-import com.bezzo.coreandroid.data.network.ApiHelperContract
+import com.bezzo.coreandroid.data.network.ApiHelper
 import com.bezzo.coreandroid.data.session.SessionConstants
-import com.bezzo.coreandroid.data.session.SessionHelperContract
+import com.bezzo.coreandroid.data.session.SessionHelper
 import com.bezzo.coreandroid.util.AppLogger
 import com.bezzo.coreandroid.util.CommonUtils
 import com.bezzo.coreandroid.util.SchedulerProvider
@@ -20,8 +20,8 @@ import javax.inject.Inject
  */
 
 open class BasePresenter<V : BaseView> @Inject
-constructor(val apiHelper: ApiHelperContract,
-            val sessionHelper : SessionHelperContract,
+constructor(val apiHelper: ApiHelper,
+            val sessionHelper : SessionHelper,
             val localHelper : LocalStorageHelper,
             val schedulerProvider: SchedulerProvider,
             val compositeDisposable: CompositeDisposable) : BasePresenterContract<V> {

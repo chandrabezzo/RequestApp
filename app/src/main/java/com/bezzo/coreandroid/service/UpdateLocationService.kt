@@ -1,4 +1,4 @@
-package com.mybarber18.partner.service
+package com.bezzo.coreandroid.service
 
 import android.Manifest
 import android.app.Service
@@ -10,7 +10,7 @@ import android.os.Build
 import android.os.IBinder
 import com.bezzo.coreandroid.MvpApp
 import com.bezzo.coreandroid.data.session.SessionConstants
-import com.bezzo.coreandroid.data.session.SessionHelperContract
+import com.bezzo.coreandroid.data.session.SessionHelper
 import com.bezzo.coreandroid.di.component.DaggerServiceComponent
 import com.bezzo.coreandroid.util.AppLogger
 import com.bezzo.coreandroid.util.Gps
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class UpdateLocationService : Service(), LocationListener {
 
     @Inject
-    lateinit var sessionHelper : SessionHelperContract
+    lateinit var sessionHelper : SessionHelper
 
     lateinit var mLocationRequest: LocationRequest
     val UPDATE_INTERVAL = (10*1000).toLong() // 10 sec

@@ -4,7 +4,7 @@ import com.bezzo.coreandroid.di.PerService
 import com.bezzo.coreandroid.di.module.ServiceModule
 import com.bezzo.coreandroid.service.MessagingInstanceIDService
 import com.bezzo.coreandroid.service.MessagingService
-import com.mybarber18.partner.service.UpdateLocationService
+import com.bezzo.coreandroid.service.UpdateLocationService
 import dagger.Component
 
 /**

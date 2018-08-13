@@ -3,11 +3,9 @@ package com.bezzo.coreandroid.di.module
 import android.app.Application
 import android.content.Context
 import com.bezzo.coreandroid.data.local.LocalStorageHelper
-import com.bezzo.coreandroid.data.local.LocalStorageHelperContract
 import com.bezzo.coreandroid.data.network.ApiHelper
 import com.bezzo.coreandroid.data.network.ApiHelperContract
 import com.bezzo.coreandroid.data.session.SessionHelper
-import com.bezzo.coreandroid.data.session.SessionHelperContract
 import com.bezzo.coreandroid.di.ApplicationContext
 import com.bezzo.coreandroid.util.SchedulerProvider
 import com.bezzo.coreandroid.util.constanta.AppConstans
@@ -40,15 +38,11 @@ class ApplicationModule(private val mApplication: Application) {
 
     @Provides
     @Singleton
-    fun provideLocalStorageHelper(appLocalStorage: LocalStorageHelper): LocalStorageHelperContract {
-        return appLocalStorage
-    }
+    fun provideLocalStorageHelper() = LocalStorageHelper(provideContext())
 
     @Provides
     @Singleton
-    fun provideSessionHelper(sessionHelper: SessionHelper): SessionHelperContract {
-        return sessionHelper
-    }
+    fun provideSessionHelper() = SessionHelper()
 
     @Provides
     @Singleton
