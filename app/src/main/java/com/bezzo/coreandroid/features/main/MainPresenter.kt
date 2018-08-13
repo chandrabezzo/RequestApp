@@ -7,10 +7,12 @@ import com.bezzo.coreandroid.data.model.JabatanResponse
 import com.bezzo.coreandroid.data.model.Karyawan
 import com.bezzo.coreandroid.data.model.Socmed
 import com.bezzo.coreandroid.data.model.UserResponse
+import com.bezzo.coreandroid.data.network.ApiHelper
 import com.bezzo.coreandroid.data.network.ApiHelperContract
 import com.bezzo.coreandroid.data.network.ResponseHandler
 import com.bezzo.coreandroid.data.network.ResponseOkHttp
-import com.bezzo.coreandroid.data.session.SessionHelperContract
+import com.bezzo.coreandroid.data.session.SessionConstants
+import com.bezzo.coreandroid.data.session.SessionHelper
 import com.bezzo.coreandroid.util.AppLogger
 import com.bezzo.coreandroid.util.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
@@ -28,7 +30,7 @@ import javax.inject.Inject
  */
 
 class MainPresenter<V : MainContracts.View> @Inject
-constructor(apiHelper: ApiHelperContract, sessionHelper: SessionHelperContract, localHelper: LocalStorageHelper,
+constructor(apiHelper: ApiHelper, sessionHelper: SessionHelper, localHelper: LocalStorageHelper,
             schedulerProvider: SchedulerProvider, compositeDisposable: CompositeDisposable)
     : BasePresenter<V>(apiHelper, sessionHelper, localHelper, schedulerProvider, compositeDisposable), MainContracts.Presenter<V> {
 

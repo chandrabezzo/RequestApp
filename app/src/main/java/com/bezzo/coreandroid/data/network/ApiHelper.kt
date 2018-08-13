@@ -2,7 +2,7 @@ package com.bezzo.coreandroid.data.network
 
 import com.bezzo.coreandroid.data.model.JabatanResponse
 import com.bezzo.coreandroid.data.model.UserResponse
-import com.bezzo.coreandroid.data.session.SessionHelperContract
+import com.bezzo.coreandroid.data.session.SessionHelper
 import com.bezzo.coreandroid.util.SchedulerProvider
 import com.rx2androidnetworking.Rx2ANRequest
 import io.reactivex.Observable
@@ -18,7 +18,7 @@ class ApiHelper @Inject
 constructor(val schedulerProvider: SchedulerProvider) : ApiHelperContract {
 
     @Inject
-    lateinit var session : SessionHelperContract
+    lateinit var session : SessionHelper
 
     override fun getUser(): Observable<UserResponse> {
         return RestApi.get(ApiEndPoint.USER, null, null, null)

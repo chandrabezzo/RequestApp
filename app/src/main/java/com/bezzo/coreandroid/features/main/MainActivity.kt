@@ -73,9 +73,9 @@ class MainActivity : BaseActivity(), MainContracts.View {
 
                 showLoadMore()
                 presenter.loadMoreKaryawan(nextPage)
-                val curSize = rvAdapter.itemCount
+
                 view?.post {
-                    rvAdapter.notifyItemRangeInserted(curSize, allKaryawan.size - 1)
+                    rvAdapter.notifyDataSetChanged()
                 }
             }
         }

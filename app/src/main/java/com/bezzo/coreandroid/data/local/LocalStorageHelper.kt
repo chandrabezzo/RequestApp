@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 class LocalStorageHelper @Inject
-constructor(@ApplicationContext context: Context) : LocalStorageHelperContract {
+constructor(@ApplicationContext context: Context) {
 
     // add all Database Local
     val sampleDatabase : SampleDatabase = SampleDatabase.getInstance(context)

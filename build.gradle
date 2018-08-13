@@ -41,6 +41,7 @@ ext {
     androidArchVersion = '1.0.0'
     hawkVersion = '2.0.1'
     rx2FastAndroidNetworking = '1.0.1'
+    okhttpLoggingVersion = '3.8.1'
     glideVersion = '4.7.1'
     gsonVersion = '2.8.0'
     debugDBVersion = '1.0.4'
