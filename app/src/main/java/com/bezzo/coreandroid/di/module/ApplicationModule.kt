@@ -2,15 +2,17 @@ package com.bezzo.coreandroid.di.module
 
 import android.app.Application
 import android.content.Context
-import com.bezzo.coreandroid.data.local.LocalStorageHelper
-import com.bezzo.coreandroid.data.network.ApiHelper
-import com.bezzo.coreandroid.data.network.ApiHelperContract
-import com.bezzo.coreandroid.data.session.SessionHelper
-import com.bezzo.coreandroid.di.ApplicationContext
-import com.bezzo.coreandroid.util.SchedulerProvider
-import com.bezzo.coreandroid.util.constanta.AppConstans
+import com.bezzo.core.di.ApplicationContext
+import com.bezzo.core.util.SchedulerProvider
+import com.bezzo.core.util.constanta.AppConstans
+import com.bezzo.core.data.local.LocalStorageHelper
+import com.bezzo.core.data.network.ApiHelper
+import com.bezzo.core.data.network.ApiHelperContract
+import com.bezzo.core.data.session.SessionHelper
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 /**
@@ -18,17 +20,12 @@ import javax.inject.Singleton
  */
 
 @Module
-class ApplicationModule(private val mApplication: Application) {
+class ApplicationModule {
 
     @Provides
     @ApplicationContext
-    fun provideContext(): Context {
-        return mApplication
-    }
-
-    @Provides
-    fun provideApplication(): Application {
-        return mApplication
+    fun provideContext(application: Application): Context {
+        return application
     }
 
     @Provides
@@ -38,7 +35,7 @@ class ApplicationModule(private val mApplication: Application) {
 
     @Provides
     @Singleton
-    fun provideLocalStorageHelper() = LocalStorageHelper(provideContext())
+    fun provideLocalStorageHelper(application: Application) = LocalStorageHelper(application)
 
     @Provides
     @Singleton
@@ -48,6 +45,16 @@ class ApplicationModule(private val mApplication: Application) {
     @Singleton
     fun provideApiHelper(apiHelper: ApiHelper): ApiHelperContract {
         return apiHelper
+    }
+
+    @Provides
+    fun provideCompositeDisposable(): CompositeDisposable {
+        return CompositeDisposable()
+    }
+
+    @Provides
+    fun provideGson(): Gson {
+        return Gson()
     }
 
     @Provides

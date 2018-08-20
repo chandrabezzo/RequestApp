@@ -1,18 +1,12 @@
 package com.bezzo.coreandroid.di.component
 
 import android.app.Application
-import android.content.Context
 import com.bezzo.coreandroid.MvpApp
-import com.bezzo.coreandroid.data.local.LocalStorageHelper
-import com.bezzo.coreandroid.data.network.ApiHelper
-import com.bezzo.coreandroid.data.network.EmployeeServices
-import com.bezzo.coreandroid.data.session.SessionHelper
-import com.bezzo.coreandroid.di.ApplicationContext
+import com.bezzo.coreandroid.di.builder.ActivityBuilder
 import com.bezzo.coreandroid.di.module.ApplicationModule
-import com.bezzo.coreandroid.service.MessagingInstanceIDService
-import com.bezzo.coreandroid.service.MessagingService
-import com.bezzo.coreandroid.service.UpdateLocationService
+import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
 
 /**
@@ -20,25 +14,17 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component(modules = [(ApplicationModule::class)])
+@Component(modules = [(AndroidInjectionModule::class), (ApplicationModule::class), (ActivityBuilder::class)])
 interface ApplicationComponent {
 
     fun inject(app: MvpApp)
 
-    fun inject(messagingInstanceIDService: MessagingInstanceIDService)
+    @Component.Builder
+    interface Builder {
 
-    fun inject(messagingService: MessagingService)
+        @BindsInstance
+        fun application(application: Application): Builder
 
-    fun inject(updateLocationService: UpdateLocationService)
-
-    @ApplicationContext
-    fun context(): Context
-
-    fun application(): Application
-
-    fun apiHelper() : ApiHelper
-
-    fun sessionHelper() : SessionHelper
-
-    fun localHelper() : LocalStorageHelper
+        fun build(): ApplicationComponent
+    }
 }

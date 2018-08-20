@@ -1,11 +1,11 @@
 package com.bezzo.coreandroid.features.main
 
-import com.bezzo.coreandroid.base.BaseActivityView
-import com.bezzo.coreandroid.base.BasePresenterContract
-import com.bezzo.coreandroid.data.model.JabatanResponse
-import com.bezzo.coreandroid.data.model.Karyawan
-import com.bezzo.coreandroid.data.model.Socmed
-import com.bezzo.coreandroid.data.model.UserResponse
+import com.bezzo.core.base.BaseActivityView
+import com.bezzo.core.base.BasePresenterContract
+import com.bezzo.core.data.model.JabatanResponse
+import com.bezzo.core.data.model.Karyawan
+import com.bezzo.core.data.model.Socmed
+import com.bezzo.core.data.model.UserResponse
 
 class MainContracts {
 
@@ -43,5 +43,7 @@ class MainContracts {
         fun getSocmedApi()
 
         fun getSocmed()
+
+        fun addKaryawan(value : Karyawan)
     }
 }
