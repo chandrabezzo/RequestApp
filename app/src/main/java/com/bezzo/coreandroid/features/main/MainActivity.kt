@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.bezzo.core.listener.OnLoadMoreListener
 import com.bezzo.coreandroid.R
 import com.bezzo.coreandroid.adapter.recyclerView.KaryawanRVAdapter
 import com.bezzo.coreandroid.adapter.spinner.JabatanSPAdapter
-import com.bezzo.coreandroid.base.BaseActivity
-import com.bezzo.coreandroid.data.model.JabatanResponse
-import com.bezzo.coreandroid.data.model.Karyawan
-import com.bezzo.coreandroid.data.model.Socmed
-import com.bezzo.coreandroid.data.model.UserResponse
-import com.bezzo.coreandroid.listener.OnLoadMoreListener
+import com.bezzo.core.base.BaseActivity
+import com.bezzo.core.data.model.JabatanResponse
+import com.bezzo.core.data.model.Karyawan
+import com.bezzo.core.data.model.Socmed
+import com.bezzo.core.data.model.UserResponse
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -20,17 +20,15 @@ class MainActivity : BaseActivity(), MainContracts.View {
 
     @Inject
     lateinit var presenter : MainPresenter<MainContracts.View>
-    @Inject
-    lateinit var linearLayoutManager : LinearLayoutManager
 
     lateinit var spAdapter : JabatanSPAdapter
     var allJabatan = ArrayList<JabatanResponse.Jabatan>()
     var allKaryawan = ArrayList<Karyawan>()
     lateinit var rvAdapter : KaryawanRVAdapter
     lateinit var onLoadMoreListener : OnLoadMoreListener
+    val linearLayoutManager = LinearLayoutManager(this)
 
     override fun onInitializedView(savedInstanceState: Bundle?) {
-        activityComponent.inject(this)
         presenter.onAttach(this)
 
         setActionBarTitle(getString(R.string.beranda))
@@ -54,6 +52,11 @@ class MainActivity : BaseActivity(), MainContracts.View {
         sr_list.setOnRefreshListener {
             presenter.getKaryawanApi()
         }
+
+        var karyawan = Karyawan()
+        karyawan.nama = "test"
+
+//        presenter.addKaryawan(karyawan)
     }
 
     override fun hideRefreshing() {

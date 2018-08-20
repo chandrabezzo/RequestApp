@@ -1,20 +1,19 @@
 package com.bezzo.coreandroid.features.main
 
+import android.widget.Toast
 import com.androidnetworking.error.ANError
-import com.bezzo.coreandroid.base.BasePresenter
-import com.bezzo.coreandroid.data.local.LocalStorageHelper
-import com.bezzo.coreandroid.data.model.JabatanResponse
-import com.bezzo.coreandroid.data.model.Karyawan
-import com.bezzo.coreandroid.data.model.Socmed
-import com.bezzo.coreandroid.data.model.UserResponse
-import com.bezzo.coreandroid.data.network.ApiHelper
-import com.bezzo.coreandroid.data.network.ApiHelperContract
-import com.bezzo.coreandroid.data.network.ResponseHandler
-import com.bezzo.coreandroid.data.network.ResponseOkHttp
-import com.bezzo.coreandroid.data.session.SessionConstants
-import com.bezzo.coreandroid.data.session.SessionHelper
-import com.bezzo.coreandroid.util.AppLogger
-import com.bezzo.coreandroid.util.SchedulerProvider
+import com.bezzo.core.util.AppLogger
+import com.bezzo.core.util.SchedulerProvider
+import com.bezzo.core.base.BasePresenter
+import com.bezzo.core.data.local.LocalStorageHelper
+import com.bezzo.core.data.model.JabatanResponse
+import com.bezzo.core.data.model.Karyawan
+import com.bezzo.core.data.model.Socmed
+import com.bezzo.core.data.model.UserResponse
+import com.bezzo.core.data.network.ApiHelper
+import com.bezzo.core.data.network.ResponseHandler
+import com.bezzo.core.data.network.ResponseOkHttp
+import com.bezzo.core.data.session.SessionHelper
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import okhttp3.Response
@@ -218,5 +217,27 @@ constructor(apiHelper: ApiHelper, sessionHelper: SessionHelper, localHelper: Loc
                 }, {
                     logging(it.message)
                 }))
+    }
+
+    override fun addKaryawan(value: Karyawan) {
+        apiHelper.addKaryawan(value)
+                .getAsOkHttpResponseAndObject(Karyawan::class.java, object : ResponseOkHttp<Karyawan>(201){
+                    override fun onSuccess(response: Response, model: Karyawan) {
+                        view?.showToast("yeah", Toast.LENGTH_SHORT)
+                    }
+
+                    override fun onUnauthorized() {
+                        logout()
+                    }
+
+                    override fun onFailed(response: Response) {
+                        logging(response.message())
+                    }
+
+                    override fun onHasError(error: ANError) {
+                        handleApiError(error)
+                    }
+
+                })
     }
 }

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.bezzo.coreandroid.R
-import com.bezzo.coreandroid.data.model.JabatanResponse
+import com.bezzo.core.data.model.JabatanResponse
 import kotlinx.android.synthetic.main.item_sp_sample.view.*
 
 /**
