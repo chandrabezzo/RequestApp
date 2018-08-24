@@ -2,13 +2,12 @@ package com.bezzo.coreandroid.di.module
 
 import android.app.Application
 import android.content.Context
+import com.bezzo.core.data.local.LocalStorageHelper
+import com.bezzo.core.data.network.ApiHelper
+import com.bezzo.core.data.session.SessionHelper
 import com.bezzo.core.di.ApplicationContext
 import com.bezzo.core.util.SchedulerProvider
 import com.bezzo.core.util.constanta.AppConstans
-import com.bezzo.core.data.local.LocalStorageHelper
-import com.bezzo.core.data.network.ApiHelper
-import com.bezzo.core.data.network.ApiHelperContract
-import com.bezzo.core.data.session.SessionHelper
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -42,12 +41,6 @@ class ApplicationModule {
     fun provideSessionHelper() = SessionHelper()
 
     @Provides
-    @Singleton
-    fun provideApiHelper(apiHelper: ApiHelper): ApiHelperContract {
-        return apiHelper
-    }
-
-    @Provides
     fun provideCompositeDisposable(): CompositeDisposable {
         return CompositeDisposable()
     }
@@ -59,4 +52,8 @@ class ApplicationModule {
 
     @Provides
     fun provideSchedulerProvider(): SchedulerProvider = SchedulerProvider()
+
+    @Provides
+    @Singleton
+    fun provideApiHelper() = ApiHelper(provideSchedulerProvider())
 }
