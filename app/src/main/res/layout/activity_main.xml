@@ -14,95 +14,11 @@
         layout="@layout/default_toolbar"
         android:layout_alignParentTop="true"/>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_title_user"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/user"
-        android:textColor="@color/colorAccent"
-        android:layout_below="@id/toolbar"
-        android:layout_marginStart="16dp"
-        android:textStyle="bold"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_user"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textColor="@color/black_effective"
-        android:layout_below="@id/tv_title_user"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_title_alamat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/alamat"
-        android:textColor="@color/colorAccent"
-        android:layout_below="@id/tv_user"
-        android:layout_marginStart="16dp"
-        android:textStyle="bold"
-        android:layout_marginEnd="16dp"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_alamat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textColor="@color/black_effective"
-        android:layout_below="@id/tv_title_alamat"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_title_socmed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/socmed"
-        android:textColor="@color/colorAccent"
-        android:layout_below="@id/tv_alamat"
-        android:layout_marginStart="16dp"
-        android:textStyle="bold"
-        android:layout_marginEnd="16dp"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_socmed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textColor="@color/black_effective"
-        android:layout_below="@id/tv_title_socmed"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_title_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/list"
-        android:layout_below="@id/tv_socmed"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"/>
-
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/sp_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title_list"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        tools:listitem="@layout/item_sp_sample"/>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/sr_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sp_list"
+        android:layout_below="@id/toolbar"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp">
 
@@ -117,7 +33,8 @@
                 android:id="@+id/rv_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                tools:listitem="@layout/item_rv_sample"/>
 
             <ProgressBar
                 android:id="@+id/pb_load_more"

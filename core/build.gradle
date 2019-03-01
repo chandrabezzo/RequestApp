@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     flavorDimensions "default"
 
     defaultConfig {
         minSdkVersion 18
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
@@ -27,11 +27,11 @@ android {
 
     productFlavors {
         development {
-            buildConfigField("String", "BASE_URL", "\"http://10.42.0.1:3000/\"")
+            buildConfigField("String", "BASE_URL", "\"https://restcountries.eu/\"")
         }
 
         production {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.1.12:3000/\"")
+            buildConfigField("String", "BASE_URL", "\"https://restcountries.eu/\"")
         }
     }
 }

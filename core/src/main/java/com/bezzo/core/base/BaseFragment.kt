@@ -28,7 +28,6 @@ open abstract class BaseFragment : Fragment(), BaseFragmentView {
     var dataReceived: Bundle? = null
     private lateinit var rootView: View
     lateinit var mContext: Context
-    lateinit var mUnbinder: Unbinder
 
     protected abstract fun onViewInitialized(savedInstanceState: Bundle?)
 
@@ -47,7 +46,6 @@ open abstract class BaseFragment : Fragment(), BaseFragmentView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(setLayout(), container, false)
-        setButterKnifeUnbinder(ButterKnife.bind(this, rootView))
         dataReceived = arguments
         mContext = activity!!
 
@@ -180,15 +178,6 @@ open abstract class BaseFragment : Fragment(), BaseFragmentView {
 
     fun setActionBarTitle(title: String) {
         (activity as BaseActivity).setActionBarTitle(title)
-    }
-
-    fun setButterKnifeUnbinder(unbinder: Unbinder){
-        mUnbinder = unbinder
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mUnbinder.unbind()
     }
 
     interface Callback {

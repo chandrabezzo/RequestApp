@@ -16,8 +16,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatTextView
 import android.view.View
 import android.widget.Toast
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.bezzo.core.R
 import com.bezzo.core.util.CommonUtils
 import com.bezzo.core.util.KeyboardUtils
@@ -35,7 +33,6 @@ open abstract class BaseActivity : AppCompatActivity(), BaseActivityView, BaseFr
     var mActionBar: ActionBar? = null
     var dataReceived: Bundle? = null
     lateinit var mContext: Context
-    var mUnbinder : Unbinder? = null
 
     val rootView: View
         get() = findViewById(android.R.id.content)
@@ -67,20 +64,6 @@ open abstract class BaseActivity : AppCompatActivity(), BaseActivityView, BaseFr
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(LocaleHelper.onAttach(newBase))
-    }
-
-    override fun setContentView(layoutResID: Int) {
-        super.setContentView(layoutResID)
-        setButterknifeUnbinder(ButterKnife.bind(this))
-    }
-
-    fun setButterknifeUnbinder(unbinder : Unbinder){
-        mUnbinder = unbinder
-    }
-
-    override fun onDestroy() {
-        mUnbinder?.unbind()
-        super.onDestroy()
     }
 
     protected abstract fun onInitializedView(savedInstanceState: Bundle?)
@@ -181,7 +164,7 @@ open abstract class BaseActivity : AppCompatActivity(), BaseActivityView, BaseFr
     }
 
     override fun gotoFragment(contentReplace: Int, data: Bundle?, classFragment: Class<*>) {
-        var fragment: Fragment? = null
+        lateinit var fragment: Fragment
 
         try {
             fragment = classFragment.newInstance() as Fragment
@@ -195,7 +178,7 @@ open abstract class BaseActivity : AppCompatActivity(), BaseActivityView, BaseFr
                 .beginTransaction()
 
         if (data != null) {
-            fragment!!.arguments = data
+            fragment.arguments = data
         }
 
         transaction.replace(contentReplace, fragment)

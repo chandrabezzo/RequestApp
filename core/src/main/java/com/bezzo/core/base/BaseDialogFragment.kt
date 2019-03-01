@@ -21,21 +21,15 @@ open abstract class BaseDialogFragment : DialogFragment(), BaseDialogFragmentVie
     var baseActivity: BaseActivity? = null
     var dataReceived: Bundle? = null
     private lateinit var rootView: View
-    var mUnbinder : Unbinder? = null
 
     protected abstract fun onViewInitialized(savedInstanceState: Bundle?)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(setLayout(), container, false)
-        setButterknifeUnbinder(ButterKnife.bind(this, rootView!!))
         dataReceived = arguments
         AndroidSupportInjection.inject(this)
         onViewInitialized(savedInstanceState)
         return rootView
-    }
-
-    fun setButterknifeUnbinder(unbinder: Unbinder){
-        mUnbinder = unbinder
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

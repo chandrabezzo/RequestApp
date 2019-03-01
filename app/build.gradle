@@ -5,15 +5,15 @@ apply plugin: 'kotlin-kapt'
 //apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
 
     flavorDimensions "default"
 
     defaultConfig {
-        applicationId "com.bezzo.coreandroid"
+        applicationId "com.bezzo.requestapp"
         minSdkVersion 18
-        targetSdkVersion 27
+        targetSdkVersion 28
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
@@ -148,23 +148,6 @@ dependencies {
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
     kaptTest "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
-
-    // UI
-    implementation "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
-    kapt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
-
-    //  Map
-    implementation "com.google.android.gms:play-services-maps:$rootProject.ext.playServiceVersion"
-    implementation "com.google.android.gms:play-services-location:$rootProject.ext.playServiceVersion"
-    implementation "com.google.android.gms:play-services-places:$rootProject.ext.playServiceVersion"
-    implementation "com.google.maps.android:android-maps-utils:$rootProject.ext.mapsUtils"
-
-    // Firebase
-    implementation "com.google.firebase:firebase-crash:$rootProject.ext.firebaseVersion"
-    implementation "com.google.firebase:firebase-messaging:17.0.0"
-    implementation 'com.firebase:firebase-client-android:2.5.2'
-    implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseVersion"
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
 
     // # UI Testing
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"

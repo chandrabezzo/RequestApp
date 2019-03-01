@@ -7,15 +7,7 @@ import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.arch.persistence.room.migration.Migration
 import android.content.Context
-import com.bezzo.core.data.local.sampleDB.converter.AlamatConverter
-import com.bezzo.core.data.local.sampleDB.dao.JabatanDao
-import com.bezzo.core.data.local.sampleDB.dao.KaryawanDao
-import com.bezzo.core.data.local.sampleDB.dao.SocmedDao
-import com.bezzo.core.data.local.sampleDB.dao.UserDao
-import com.bezzo.core.data.model.JabatanResponse
-import com.bezzo.core.data.model.Karyawan
-import com.bezzo.core.data.model.Socmed
-import com.bezzo.core.data.model.UserResponse
+import com.bezzo.core.data.model.Error
 import com.bezzo.core.di.ApplicationContext
 import com.bezzo.core.util.constanta.AppConstans
 
@@ -25,15 +17,8 @@ import com.bezzo.core.util.constanta.AppConstans
  * Add more converter must unique
  */
 @Database(entities =
-    [(UserResponse.User::class), (JabatanResponse.Jabatan::class), (Karyawan::class),
-    (Socmed::class)], version = 1)
-@TypeConverters(AlamatConverter::class)
+    [(Error::class)], version = 1)
 abstract class SampleDatabase : RoomDatabase() {
-
-    abstract fun user() : UserDao
-    abstract fun jabatan() : JabatanDao
-    abstract fun karyawan() : KaryawanDao
-    abstract fun socmed() : SocmedDao
 
     companion object {
         @Volatile private var INSTANCE: SampleDatabase? = null
