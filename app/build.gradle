@@ -107,7 +107,8 @@ dependencies {
     implementation "com.karumi:dexter:$rootProject.ext.dexterVersion"
 
     // # Networking
-    implementation "com.amitshekhar.android:rx2-android-networking:$rootProject.ext.rx2FastAndroidNetworking"
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 
     // # Image
     implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"

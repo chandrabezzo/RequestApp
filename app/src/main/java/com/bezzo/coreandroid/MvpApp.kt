@@ -4,11 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDex
-import com.androidnetworking.AndroidNetworking
 import com.bezzo.core.util.AppLogger
 import com.bezzo.core.util.LocaleHelper
 import com.bezzo.coreandroid.di.component.DaggerApplicationComponent
-import com.bezzo.coreandroid.di.module.ApplicationModule
 import com.orhanobut.hawk.Hawk
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -43,6 +41,5 @@ class MvpApp : Application(), HasActivityInjector {
 
         AppLogger.init()
         Hawk.init(this).build()
-        AndroidNetworking.initialize(applicationContext)
     }
 }

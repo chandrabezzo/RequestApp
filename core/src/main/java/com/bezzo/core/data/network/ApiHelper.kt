@@ -1,8 +1,13 @@
 package com.bezzo.core.data.network
 
+import com.bezzo.core.BuildConfig
+import com.bezzo.core.data.model.Country
 import com.bezzo.core.data.session.SessionHelper
 import com.bezzo.core.util.SchedulerProvider
-import com.rx2androidnetworking.Rx2ANRequest
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,10 +22,17 @@ constructor(val schedulerProvider: SchedulerProvider) {
     @Inject
     lateinit var session : SessionHelper
 
-    fun getCountries(limit: Int): Rx2ANRequest {
-        val params = HashMap<String, String>()
-        params["limit"] = limit.toString()
+    private val client = OkHttpClient.Builder().addInterceptor(HttpInterceptor()).build()
 
-        return RestApi.get(ApiEndPoint.COUNTRY, params, null, null)
+    private val retrofit = Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+
+    private val service = retrofit.create(Service::class.java)
+
+    fun getCountries(limit: Int): Call<List<Country>> {
+        return service.getCountries(limit)
     }
 }

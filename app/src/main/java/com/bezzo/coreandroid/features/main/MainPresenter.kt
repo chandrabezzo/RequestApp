@@ -1,15 +1,16 @@
 package com.bezzo.coreandroid.features.main
 
-import com.androidnetworking.error.ANError
+import android.widget.Toast
 import com.bezzo.core.base.BasePresenter
 import com.bezzo.core.data.local.LocalStorageHelper
 import com.bezzo.core.data.model.Country
 import com.bezzo.core.data.network.ApiHelper
-import com.bezzo.core.data.network.ResponseOkHttp
 import com.bezzo.core.data.session.SessionHelper
 import com.bezzo.core.util.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
-import okhttp3.Response
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -26,28 +27,17 @@ constructor(apiHelper: ApiHelper, sessionHelper: SessionHelper, localHelper: Loc
     : BasePresenter<V>(apiHelper, sessionHelper, localHelper, schedulerProvider, compositeDisposable), MainContracts.Presenter<V> {
 
     override fun getCountries(limit: Int) {
-        apiHelper.getCountries(limit).getAsOkHttpResponseAndObjectList(Country::class.java,
-            object : ResponseOkHttp<ArrayList<Country>>(200){
-                override fun onSuccess(response: Response, model: ArrayList<Country>) {
-                    view?.dismissProgressDialog()
-                    view?.showCountries(model)
-                }
+        apiHelper.getCountries(limit).enqueue(object : Callback<List<Country>>{
+            override fun onFailure(call: Call<List<Country>>, t: Throwable) {
+                view?.showToast(t.message.toString(), Toast.LENGTH_SHORT)
+            }
 
-                override fun onUnauthorized() {
-                    view?.dismissProgressDialog()
-                    logout()
+            override fun onResponse(call: Call<List<Country>>, response: Response<List<Country>>) {
+                response.body()?.let { data ->
+                    view?.showCountries(data)
                 }
+            }
 
-                override fun onFailed(response: Response) {
-                    view?.dismissProgressDialog()
-                    logging(response.message())
-                }
-
-                override fun onHasError(error: ANError) {
-                    view?.dismissProgressDialog()
-                    handleApiError(error)
-                }
-
-            })
+        })
     }
 }

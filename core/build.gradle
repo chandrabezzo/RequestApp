@@ -85,7 +85,8 @@ dependencies {
     debugImplementation "com.amitshekhar.android:debug-db:$rootProject.ext.debugDBVersion"
 
     // # Networking
-    implementation "com.amitshekhar.android:rx2-android-networking:$rootProject.ext.rx2FastAndroidNetworking"
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 
     // #Firebase
     implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseVersion"

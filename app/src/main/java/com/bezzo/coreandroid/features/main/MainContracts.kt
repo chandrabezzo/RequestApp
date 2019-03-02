@@ -7,7 +7,7 @@ import com.bezzo.core.data.model.*
 class MainContracts {
 
     interface View : BaseActivityView {
-        fun showCountries(values: ArrayList<Country>)
+        fun showCountries(values: List<Country>)
 
         fun showLoadMore()
 

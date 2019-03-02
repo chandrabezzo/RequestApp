@@ -82,7 +82,7 @@ class MainActivity : BaseActivity(), MainContracts.View {
         pb_load_more.visibility = View.GONE
     }
 
-    override fun showCountries(values: ArrayList<Country>) {
+    override fun showCountries(values: List<Country>) {
         list.clear()
         list.addAll(values)
         adapter.notifyDataSetChanged()
