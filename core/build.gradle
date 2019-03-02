@@ -19,19 +19,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://restcountries.eu/\"")
+        }
         release {
+            buildConfigField("String", "BASE_URL", "\"https://restcountries.eu/\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    productFlavors {
-        development {
-            buildConfigField("String", "BASE_URL", "\"https://restcountries.eu/\"")
-        }
-
-        production {
-            buildConfigField("String", "BASE_URL", "\"https://restcountries.eu/\"")
         }
     }
 }
