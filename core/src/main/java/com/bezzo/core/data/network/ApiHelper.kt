@@ -1,13 +1,13 @@
 package com.bezzo.core.data.network
 
-import com.bezzo.core.BuildConfig
-import com.bezzo.core.data.model.Country
+import android.content.Context
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonArrayRequest
 import com.bezzo.core.data.session.SessionHelper
 import com.bezzo.core.util.SchedulerProvider
-import okhttp3.OkHttpClient
-import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import org.json.JSONArray
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,17 +22,22 @@ constructor(val schedulerProvider: SchedulerProvider) {
     @Inject
     lateinit var session : SessionHelper
 
-    private val client = OkHttpClient.Builder().addInterceptor(HttpInterceptor()).build()
+    @Inject
+    lateinit var context: Context
 
-    private val retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-
-    private val service = retrofit.create(Service::class.java)
-
-    fun getCountries(limit: Int): Call<List<Country>> {
-        return service.getCountries(limit)
+    fun getCountry(limit: Int, listener: HandleRequest): JsonArrayRequest {
+        return JsonArrayRequest(Request.Method.GET, "${ApiEndPoint.COUNTRY}?limit=$limit", null,
+                Response.Listener<JSONArray> { response ->
+                    listener.onSuccess(response)
+                },
+                Response.ErrorListener {
+                    listener.onFailure(it)
+                })
     }
+}
+
+interface HandleRequest {
+    fun onSuccess(response: JSONArray)
+
+    fun onFailure(error: VolleyError)
 }

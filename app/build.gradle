@@ -107,8 +107,7 @@ dependencies {
     implementation "com.karumi:dexter:$rootProject.ext.dexterVersion"
 
     // # Networking
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.android.volley:volley:1.1.0'
 
     // # Image
     implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"

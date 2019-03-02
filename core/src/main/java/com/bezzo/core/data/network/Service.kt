@@ -1,12 +1,15 @@
 package com.bezzo.core.data.network
 
-import com.bezzo.core.data.model.Country
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import android.content.Context
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
 
-interface Service {
+object Service {
+    private lateinit var context: Context
 
-    @GET("rest/v2/all")
-    fun getCountries(@Query("limit") limit: Int): Call<List<Country>>
+    val requestQueue: RequestQueue by lazy { Volley.newRequestQueue(context) }
+
+    fun initialize(context: Context) {
+        this.context = context.applicationContext
+    }
 }

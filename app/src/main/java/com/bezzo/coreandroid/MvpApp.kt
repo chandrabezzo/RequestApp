@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDex
+import com.android.volley.toolbox.Volley
 import com.bezzo.core.util.AppLogger
 import com.bezzo.core.util.LocaleHelper
 import com.bezzo.coreandroid.di.component.DaggerApplicationComponent

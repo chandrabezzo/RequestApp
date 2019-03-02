@@ -1,16 +1,18 @@
 package com.bezzo.coreandroid.features.main
 
 import android.widget.Toast
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.Volley
 import com.bezzo.core.base.BasePresenter
 import com.bezzo.core.data.local.LocalStorageHelper
 import com.bezzo.core.data.model.Country
 import com.bezzo.core.data.network.ApiHelper
+import com.bezzo.core.data.network.HandleRequest
 import com.bezzo.core.data.session.SessionHelper
 import com.bezzo.core.util.SchedulerProvider
+import com.google.gson.reflect.TypeToken
 import io.reactivex.disposables.CompositeDisposable
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.json.JSONArray
 import javax.inject.Inject
 
 
@@ -27,17 +29,18 @@ constructor(apiHelper: ApiHelper, sessionHelper: SessionHelper, localHelper: Loc
     : BasePresenter<V>(apiHelper, sessionHelper, localHelper, schedulerProvider, compositeDisposable), MainContracts.Presenter<V> {
 
     override fun getCountries(limit: Int) {
-        apiHelper.getCountries(limit).enqueue(object : Callback<List<Country>>{
-            override fun onFailure(call: Call<List<Country>>, t: Throwable) {
-                view?.showToast(t.message.toString(), Toast.LENGTH_SHORT)
+        val request = apiHelper.getCountry(limit, object : HandleRequest{
+            override fun onSuccess(response: JSONArray) {
+                val listType = object : TypeToken<List<Country>>() {}.type
+                val countries = gson.fromJson<List<Country>>(response.toString(), listType)
+                view?.showCountries(countries)
             }
 
-            override fun onResponse(call: Call<List<Country>>, response: Response<List<Country>>) {
-                response.body()?.let { data ->
-                    view?.showCountries(data)
-                }
+            override fun onFailure(error: VolleyError) {
+                view?.showToast(error.message ?: "Error", Toast.LENGTH_SHORT)
             }
-
         })
+
+        view?.getContext()?.let { context -> Volley.newRequestQueue(context).add(request) }
     }
 }
