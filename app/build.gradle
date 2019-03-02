@@ -8,8 +8,6 @@ android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
 
-    flavorDimensions "default"
-
     defaultConfig {
         applicationId "com.bezzo.requestapp"
         minSdkVersion 18
@@ -36,21 +34,12 @@ android {
 
     buildTypes {
         debug {
-
-        }
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    productFlavors {
-        development {
             resValue "string", "app_name", "Core Android Dev"
         }
-
-        production {
+        release {
             resValue "string", "app_name", "Core Android"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
